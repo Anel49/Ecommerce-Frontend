@@ -1,0 +1,51 @@
+body {
+    margin-top: 50px;
+    margin-left: 20%;
+    margin-right: 20%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#shirtimg {
+    width: 30%;
+    height: 40%;
+}
+h4 {
+    margin-bottom: 2px;
+}
+td {
+    text-align: center;
+    margin-top: 80px;
+    width: 25px;
+    height: 41px;
+    border: 1px solid black;
+    border-radius: 20%;
+    padding: 7px;
+}
+footer {
+    text-align: center;
+}
+p {
+    width: 50%;
+    text-justify: justify;
+    text-justify: inter-word;
+}
+div {
+    margin-right: 10px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+.blue {
+    background-color: #b3c1dc;
+}
+.black {
+    background-color: black;
+}
+.gray {
+    background-color: #dedede;
+}
+.salmon {
+    background-color: #ffcaca;
+}
+.sage {
+    background-color: #cae5c8;
+}
