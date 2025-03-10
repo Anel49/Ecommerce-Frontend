@@ -42,7 +42,6 @@ let sizePrices = [
     }
 ]
 addSelectOptions();
-populateCartTable();
 updateCartArr();
 
 function preventPageReload(e){
@@ -81,7 +80,8 @@ function updateCartArr(){
 // grabs the selected size and finds its price
 function sizeSelection(selectedSize){
     let price = 0;
-    let productSize = "";
+    let productSize = "";    
+
     for (let i = 0; i < sizePrices.length; i++){
         if (sizePrices[i]['letter'] == selectedSize){
             price = sizePrices[i]['price'];
@@ -93,17 +93,23 @@ function sizeSelection(selectedSize){
             localStorage.setItem("cartItem" + localStorage.length, storageStr);
             updateCartArr();
         }
+        
     }
+
+    addItemToCart(price, productSize);    
     populateCartTable();
-    addItemToCart(price, productSize);
 }
 
 // adds the price of the product to the cart total
 function addItemToCart(price, productSize){
-    alert(productSize + " Shirt Added (Costs $" + price + ") - Total $" + total.toFixed(2));
+    let modalMessage = document.getElementById("modalContent");
+    modalMessage.innerHTML = 
+        `
+        ${productSize} Shirt Added (Costs $${price}) - Total $${total.toFixed(2)}
+        `
 }
 
-//----------------------------- HTML FORMATTING -----------------------------//
+// HTML FORMATTING
 // creates the table and dropdown menu based from dictionary
 function addSelectOptions(){
     // sizes and availability table
@@ -209,4 +215,26 @@ function populateCartTable(){
         `
     };
 
+}
+
+// MODAL CODE
+const modal = document.getElementById("modal");
+const addToCartBtn = document.getElementById("add-to-cart-btn");
+const modalCloseBtn = document.getElementsByClassName("closeBtn")[0];
+
+addToCartBtn.onclick = function() {
+    sizeSelection(document.getElementById('selects').value);
+    modal.style.display = "block";
+  
+}
+
+modalCloseBtn.onclick = function() {
+  modal.style.display = "none";
+}
+
+// clicking anywhere on the screen also closes it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 }
