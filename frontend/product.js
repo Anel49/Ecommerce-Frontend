@@ -73,8 +73,9 @@ function updateCartArr(){
 
         subtotal += shoppingCartItems[i]['price'];
     }
+    taxed = Number((subtotal * 0.06));
+    total = (subtotal + taxed);
     populateCartTable();
-    console.log(shoppingCartItems);
 }
 
 // grabs the selected size and finds its price
@@ -99,8 +100,7 @@ function sizeSelection(selectedSize){
 
 // adds the price of the product to the cart total
 function addItemToCart(price, productSize){
-    taxed = Number(subtotal * 1.06);
-    alert(productSize + " Shirt Added (Costs $" + price + ") - Total $" + taxed.toFixed(2));
+    alert(productSize + " Shirt Added (Costs $" + price + ") - Total $" + total.toFixed(2));
 }
 
 //----------------------------- HTML FORMATTING -----------------------------//
@@ -181,14 +181,32 @@ function populateCartTable(){
             `
             
         for (let i = 0; i < shoppingCartItems.length; i++){
-            console.log(shoppingCartItems[i]['letter'], shoppingCartItems[i]['price']);
             cartPopupTable.innerHTML +=
                 `
                 <tr>
                     <td>${shoppingCartItems[i]['letter']}</td>
-                    <td>${shoppingCartItems[i]['price']}</td>
+                    <td>$${shoppingCartItems[i]['price']}</td>
                 </tr>
                 `
-        }
+        }        
+        cartPopupTable.innerHTML +=
+        `
+        <tr>
+            <td class="total-section">Subtotal:</td>
+            <td class="total-section" style="text-align: left">
+                $${subtotal.toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td class="total-section">Tax:</td>
+            <td class="total-section" style="text-align: left">
+                $${taxed.toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td class="total-section">Total:</td>
+            <td class="total-section" style="text-align: left">
+                $${total.toFixed(2)}</td>
+        </tr>
+        `
     };
+
 }

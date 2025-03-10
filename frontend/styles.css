@@ -74,3 +74,9 @@ footer {
     right: 62px;
     width: 300px;
 }
+.total-section {
+    border: none;
+    font-weight: bold;
+    text-align: right;
+    padding-bottom: 0;
+}
