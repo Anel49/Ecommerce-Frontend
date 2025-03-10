@@ -1,6 +1,7 @@
 
 // variables for cart totals
 let subtotal = 0, taxed = 0, total = 0;
+const taxRate = 0.06;
 let shoppingCartItems = [];
 // array of dictionary objects with full size names, size letters, and prices
 let sizePrices = [
@@ -48,7 +49,7 @@ function preventPageReload(e){
     e.preventDefault();
 }
 document.getElementById("add-to-cart-btn").addEventListener(
-    this, preventPageReload);
+    onclick, preventPageReload);
 
 // grabs localStorage strings and converts them to dict objects for 
 // easier operations
@@ -72,7 +73,7 @@ function updateCartArr(){
 
         subtotal += shoppingCartItems[i]['price'];
     }
-    taxed = Number((subtotal * 0.06));
+    taxed = Number((subtotal * taxRate));
     total = (subtotal + taxed);
     populateCartTable();
 }
