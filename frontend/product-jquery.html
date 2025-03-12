@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Shirt Shopper</title>
+        <link rel="icon" type="icon" href="imgs/ss-logo.ico">
+        <link rel="stylesheet" href="styles.css">
+        <script src=
+            "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+        </script>
+        <script src="product-jquery.js"></script>
+    </head>
+    <body>
+        <nav>
+            <img id="cart" src="imgs/cart.png">
+            <div id="cart-popup">
+                <table id="cart-popup-table"></table>
+            </div>
+        </nav>
+
+        <p>Testing jQuery</p>
+
+        <h1>Shirt</h1>
+        <div id="main-content">            
+            <img src="imgs/products/navy-shirtfront.png" 
+                alt="Image of a blue shirt" id="shirtimg" width="400" 
+                height="400">
+            <section>
+                <h2 id="price-txt">$19.99</h2>
+                <h2>Description</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                    Curabitur vel velit a dolor cursus aliquet. Suspendisse 
+                    potenti. Donect non nisi id nisi pretium tincidunt.
+                </p>
+            </section>
+            <h2>Available Sizes</h2>
+            <section>
+                <table id="sizes-table">
+                    <tbody></tbody>
+                </table>  
+
+                <select id="selects" class="select middle field"
+                    onchange="updatePriceText()"></select>
+                
+                <!-- color selection I might add later
+                <select class="select middle field">
+                    <option value="Black">Black</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Gray">Gray</option>
+                    <option value="Maroon">Maroon</option>
+                    <option value="Navy">Navy</option>
+                    <option value="Red">Red</option>
+                    <option value="Tan">Tan</option>
+                    <option value="White">White</option>
+                </select>
+                -->
+
+                <form id="add-to-cart-form">
+                    <button id="add-to-cart-btn" class="middle field" 
+                        type="button">
+                        Add to Cart</button>
+                </form>
+                
+                <div id="modal" class="modal">
+                    <div class="modal-content">
+                        <span class="closeBtn">&times;</span>
+                        <p id="modalContent"></p>
+                    </div>
+                </div>
+
+            </section>        
+        </div>
+        <footer>&copy; 2025 Shirt Shopper Corp.</footer>
+    </body>
+</html>

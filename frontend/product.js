@@ -96,7 +96,6 @@ function sizeSelection(selectedSize){
         }
         
     }
-
     addItemToCart(price, productSize);    
     populateCartTable();
 }
