@@ -219,3 +219,18 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+// I don't think localstorage.length is a good long term solution. Because if 
+// you need to add other things to localstorage, then you may start skipping 
+// indexes. Maybe add an Id generator to be more reliable in the long term:
+
+function getNextCartItemId() {  
+    let counter = localStorage.getItem('cartItemCounter');  
+    if (counter === null) {  
+        counter = 0;  
+    } else {  
+        counter = parseInt(counter) + 1;  
+    }  
+    localStorage.setItem('cartItemCounter', counter);  
+    return counter;  
+}  

@@ -26,6 +26,18 @@ $(document).ready(function(){
     updateCartTable();
     updateCartArr();
 
+    // creates or changes "cartItemCount"'s value and assigns num for next index
+    function getNextCartItemId(){
+        let counter = localStorage.getItem("lastIndex");
+        if (counter === null){
+            counter = 0;
+        } else {
+            counter = parseInt(counter) + 1;
+        }
+        localStorage.setItem("lastIndex", counter);
+        return counter;
+    }
+
     // populating table and select sizes
     let table = $("#sizes-table");
     let selects = $("#selects");
@@ -58,7 +70,7 @@ $(document).ready(function(){
         $.each(sizePrices, function(i, key){
             if (selects.val() == key.letter){
                 let storageStr = [key.size, key.letter, key.price].join(",");
-                localStorage.setItem("cartItem" + localStorage.length, storageStr);
+                localStorage.setItem("cartItem" + getNextCartItemId(), storageStr);
                 // TODO update the user's cart with this new localStorage addition
                 updateCartArr();
                 updateModalMessage(key.letter, key.price);                
