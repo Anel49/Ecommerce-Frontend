@@ -5,43 +5,14 @@ const taxRate = 0.06;
 let shoppingCartItems = [];
 // array of dictionary objects with full size names, size letters, and prices
 let sizePrices = [
-    {
-        size: "Extra Small",
-        letter: "XS",
-        price: 19.99,
-        availability: "In Stock"
-    },
-    {
-        size: "Small",
-        letter: "S",
-        price: 21.99,
-        availability: "In Stock"
-    },
-    {
-        size: "Medium",
-        letter: "M",
-        price: 23.99,
-        availability: "In Stock"
-    },
-    {
-        size: "Large",
-        letter: "L",
-        price: 25.99,
-        availability: "Out of Stock"
-    },
-    {
-        size: "Extra Large",
-        letter: "XL",
-        price: 27.99,
-        availability: "Out of Stock"
-    },
-    {
-        size: "Extra Extra Large",
-        letter: "XXL",
-        price: 29.99,
-        availability: "In Stock"
-    }
-]
+    {size: "Extra Small", letter: "XS", price: 19.99, availability: "In Stock"},
+    {size: "Small", letter: "S", price: 21.99, availability: "In Stock"},
+    {size: "Medium", letter: "M", price: 23.99, availability: "In Stock"},
+    {size: "Large", letter: "L", price: 25.99, availability: "Out of Stock"},
+    {size: "Extra Large", letter: "XL", price: 27.99, availability: "Out of Stock"},
+    {size: "Extra Extra Large", letter: "XXL", price: 29.99, availability: "In Stock"}
+];
+
 addSelectOptions();
 updateCartArr();
 
@@ -51,11 +22,22 @@ function preventPageReload(e){
 document.getElementById("add-to-cart-btn").addEventListener(
     onclick, preventPageReload);
 
+function storageCounter(){
+    let counter = localStorage.getItem("cartItem");
+    if (counter === null){
+        counter = 0;
+    } else {
+        counter = counter + 1;
+    }
+    return counter;
+}
+
 // grabs localStorage strings and converts them to dict objects for 
 // easier operations
 function updateCartArr(){
     subtotal = 0;
     shoppingCartItems = [];
+    // TODO storage counter
     for (let i = 0; i < localStorage.length; i++){
     
         let workingDict = {};
@@ -63,7 +45,7 @@ function updateCartArr(){
         let str = localStorage.getItem("cartItem" + i);
     
         workingStr = str.split(",");
-        workingStr[2] = Number(workingStr[2]);
+        workingStr[2] = parseFloat(workingStr[2]);
     
         workingDict['size'] = workingStr[0];
         workingDict['letter'] = workingStr[1];
@@ -73,7 +55,7 @@ function updateCartArr(){
 
         subtotal += shoppingCartItems[i]['price'];
     }
-    taxed = Number((subtotal * taxRate));
+    taxed = (subtotal * taxRate);
     total = (subtotal + taxed);
     populateCartTable();
 }
@@ -214,7 +196,6 @@ function populateCartTable(){
         </tr>
         `
     };
-
 }
 
 // MODAL CODE

@@ -15,6 +15,12 @@ let sizePrices = [
 
 $(document).ready(function(){
 
+    // constants
+    const addToCartBtn = $("#add-to-cart-btn");
+    const modal = $("#modal");    
+    const modalCloseBtn = $("span");
+    const modalMessage = $("#modalMsg");
+
     // calling for default populating table, dropdown, and localStorage shopping 
     // cart
     updateCartTable();
@@ -23,6 +29,7 @@ $(document).ready(function(){
     // populating table and select sizes
     let table = $("#sizes-table");
     let selects = $("#selects");
+
     $.each(sizePrices, function(i, key){
         // table
         let row = $("<tr>");
@@ -38,49 +45,54 @@ $(document).ready(function(){
     });
 
     // when the user selects a different size, the h2 price changes
-    $("#selects").change(function(){
+    selects.change(function(){
         $.each(sizePrices, function(i, key){
-            if ($("#selects").val() == key.letter){
+            if (selects.val() == key.letter){
                 $("#price-txt").text("$" + key.price);
             }
         })
     });
 
     // when the user adds an item to the cart
-    $("#add-to-cart-btn").click(function(){
+    addToCartBtn.click(function(){
         $.each(sizePrices, function(i, key){
-            if ($("#selects").val() == key.letter){
+            if (selects.val() == key.letter){
                 let storageStr = [key.size, key.letter, key.price].join(",");
                 localStorage.setItem("cartItem" + localStorage.length, storageStr);
-                // update the user's cart with this new localStorage addition
+                // TODO update the user's cart with this new localStorage addition
                 updateCartArr();
+                updateModalMessage(key.letter, key.price);                
             };
         });
+        modal.css("display", "block");
     });
 
     // zeros out shoppingCartItems to repopulate with new localStorage variables
     function updateCartArr(){
         subtotal = 0;
         shoppingCartItems = [];
-        localStorageArr = Object.keys(localStorage);
+        let localStorageArr = Object.keys(localStorage);
 
-        $.each(localStorageArr, function(i, val){
+        $.each(localStorageArr, function(i){
             let workingDict = {};
             let workingStr = "";
-            let str = localStorage.getItem("cartItem" + i);
 
-            workingStr = str.split(",");
-            workingStr[2] = Number(workingStr[2]);
+            try {
+                let str = localStorage.getItem("cartItem" + i);
+                workingStr = str.split(",");
+                workingStr[2] = Number(workingStr[2]);
 
-            workingDict['size'] = workingStr[0];
-            workingDict['letter'] = workingStr[1];
-            workingDict['price'] = workingStr[2];
+                workingDict['size'] = workingStr[0];
+                workingDict['letter'] = workingStr[1];
+                workingDict['price'] = workingStr[2];
 
-            shoppingCartItems.push(workingDict);
-
-            subtotal += shoppingCartItems[i]['price'];
+                shoppingCartItems.push(workingDict);
+                subtotal += shoppingCartItems[i]['price'];
+            } catch (e){
+                return e;
+            }            
         });
-        taxed = Number((subtotal * taxRate));
+        taxed = (subtotal * taxRate);
         total = (subtotal + taxed);
         updateCartTable();
     };
@@ -137,11 +149,28 @@ $(document).ready(function(){
         };
     };
 
-    // popup cart
+    // popups
+    // can't figure out a way to not use explicit CSS to show/hide
+    // cart
+    const cartPopup = $("#cart-popup");
     $("#cart").hover(function(){
-        $("#cart-popup").css("display", "block");
+        cartPopup.css("display",  "block");
     },
     function(){
-        $("#cart-popup").css("display", "none");
+        cartPopup.css("display", "none");
+    });    
+    // modal
+    addToCartBtn.click(function(){
+        modal.css("display", "block");
     });
+
+    modalCloseBtn.click(function(){
+        modal.css("display", "none");
+    });
+
+    function updateModalMessage(letter, price){
+        modalMessage.text(`
+            ${letter} Shirt Added (Costs $${price}) - Total $${total.toFixed(2)}
+            `)
+    };
 });
