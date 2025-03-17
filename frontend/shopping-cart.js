@@ -96,38 +96,21 @@ $(document).ready(function(){
             // subtotal, tax, and total section
             popupTable.append(`
                 <tr class="total-section">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td></td><td></td><td></td><td></td>
                     <td>Subtotal:</td>
                     <td>$${subtotal.toFixed(2)}</td>
                 </tr>
                 <tr class="total-section">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td></td><td></td><td></td><td></td>
                     <td>Tax:</td>
                     <td>$${taxed.toFixed(2)}</td>
                 </tr>
                 <tr class="total-section">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td></td><td></td><td></td><td></td>
                     <td>Total:</td>
                     <td>$${total.toFixed(2)}</td>
                 </tr>
             `);
         };
     };
-
-    $("#taxRate").hover(function(){
-
-    });
-
-
-
-
-})
+});

@@ -1,236 +1,237 @@
-
-// variables for cart totals
+// variables for cart totals and shopping cart
 let subtotal = 0, taxed = 0, total = 0;
 const taxRate = 0.06;
 let shoppingCartItems = [];
-// array of dictionary objects with full size names, size letters, and prices
-let sizePrices = [
-    {size: "Extra Small", letter: "XS", price: 19.99, availability: "In Stock"},
-    {size: "Small", letter: "S", price: 21.99, availability: "In Stock"},
-    {size: "Medium", letter: "M", price: 23.99, availability: "In Stock"},
-    {size: "Large", letter: "L", price: 25.99, availability: "Out of Stock"},
-    {size: "Extra Large", letter: "XL", price: 27.99, availability: "Out of Stock"},
-    {size: "Extra Extra Large", letter: "XXL", price: 29.99, availability: "In Stock"}
+// color dictionary array for when I implement colors
+let shirtColors = [
+    {color: "Black", path: "./imgs/products/black-shirtfront.png"},
+    {color: "Blue", path: "./imgs/products/blue-shirtfront.png"},
+    {color: "Gray", path: "./imgs/products/gray-shirtfront.png"},
+    {color: "Maroon", path: "./imgs/products/maroon-shirtfront.png"},
+    {color: "Navy", path: "./imgs/products/navy-shirtfront.png"},
+    {color: "Red", path: "./imgs/products/red-shirtfront.png"},
+    {color: "Tan", path: "./imgs/products/tan-shirtfront.png"},
+    {color: "White", path: "./imgs/products/white-shirtfront.png"}
 ];
 
-addSelectOptions();
-updateCartArr();
+// array of dictionary objects with full size names, size letters, and prices
+const shirtSizes = [
+    {size: "Extra Small", letter: "XS", price: 19.99},
+    {size: "Small", letter: "S", price: 21.99},
+    {size: "Medium", letter: "M", price: 23.99},
+    {size: "Large", letter: "L", price: 25.99},
+    {size: "Extra Large", letter: "XL", price: 27.99},
+    {size: "Extra Extra Large", letter: "XXL", price: 29.99}
+];
 
-function preventPageReload(e){
-    e.preventDefault();
-}
-document.getElementById("add-to-cart-btn").addEventListener(
-    onclick, preventPageReload);
+$(document).ready(function(){
 
-function storageCounter(){
-    let counter = localStorage.getItem("cartItem");
-    if (counter === null){
-        counter = 0;
-    } else {
-        counter = counter + 1;
-    }
-    return counter;
-}
+    // constants
+    const addToCartBtn = $("#add-to-cart-btn");
+    const modal = $("#modal");    
+    const modalCloseBtn = $("span");
+    const modalMessage = $("#modalMsg");
 
-// grabs localStorage strings and converts them to dict objects for 
-// easier operations
-function updateCartArr(){
-    subtotal = 0;
-    shoppingCartItems = [];
-    // TODO storage counter
-    for (let i = 0; i < localStorage.length; i++){
-    
-        let workingDict = {};
-        let workingStr = "";
-        let str = localStorage.getItem("cartItem" + i);
-    
-        workingStr = str.split(",");
-        workingStr[2] = parseFloat(workingStr[2]);
-    
-        workingDict['size'] = workingStr[0];
-        workingDict['letter'] = workingStr[1];
-        workingDict['price'] = workingStr[2];
-    
-        shoppingCartItems.push(workingDict);
+    // calling for default populating table, dropdown, and localStorage shopping 
+    // cart
+    updateCartTable();
+    updateCartArr();
 
-        subtotal += shoppingCartItems[i]['price'];
-    }
-    taxed = (subtotal * taxRate);
-    total = (subtotal + taxed);
-    populateCartTable();
-}
-
-// grabs the selected size and finds its price
-function sizeSelection(selectedSize){
-    let price = 0;
-    let productSize = "";    
-
-    for (let i = 0; i < sizePrices.length; i++){
-        if (sizePrices[i]['letter'] == selectedSize){
-            price = sizePrices[i]['price'];
-            productSize = sizePrices[i]['letter'];
-
-            let storageStr = [sizePrices[i]['size'], sizePrices[i]['letter'], 
-            sizePrices[i]['price']].join(",");
-
-            localStorage.setItem("cartItem" + localStorage.length, storageStr);
-            updateCartArr();
+    // creates or changes "cartItemCount"'s value and assigns num for next index
+    function getNextCartItemId(){
+        let counter = localStorage.getItem("lastIndex");
+        if (counter === null){
+            counter = 0;
+        } else {
+            counter = parseInt(counter) + 1;
         }
-        
+        localStorage.setItem("lastIndex", counter);
+        return counter;
     }
-    addItemToCart(price, productSize);    
-    populateCartTable();
-}
 
-// adds the price of the product to the cart total
-function addItemToCart(price, productSize){
-    let modalMessage = document.getElementById("modalContent");
-    modalMessage.innerHTML = 
-        `
-        ${productSize} Shirt Added (Costs $${price}) - Total $${total.toFixed(2)}
-        `
-}
+    // table and select element vars
+    let table = $("#sizes-table");
+    let sizeSelect = $("#sizeSelect");
+    let colorSelect = $("#colorSelect");
 
-// HTML FORMATTING
-// creates the table and dropdown menu based from dictionary
-function addSelectOptions(){
-    // sizes and availability table
-    const sizes = document.getElementById("sizes-table");
-    sizes.innerHTML = 
-        `
-        <tr>
-            <th>Size</th>
-            <th>Availability</th>
-        </tr>
-        `
-    for (let i = 0; i < sizePrices.length; i++){
-        sizes.innerHTML += 
-            `
-            <tr>
-                <td>${sizePrices[i]["letter"]}</td>
-                <td>${sizePrices[i]["availability"]}</td>
-            <tr>
-            `
-    }
-    // select box
-    const selects = document.getElementById("selects");
-    selects.innerHTML = "";
-    for (let i = 0; i < sizePrices.length; i++){
-        selects.innerHTML +=
-            `
-            <option value="${sizePrices[i]['letter']}">${sizePrices[i]['letter']}</option>
-            `
-    }
-}
+    // populates table
+    $.each(shirtSizes, function(i, key){
+        // table
+        let row = $("<tr>");
+        row.append("<td>" + key.letter + "</td>");
+        row.append("<td>$" + key.price + "</td>");
+        row.append("</tr>");
+        table.append(row);
 
-// updates the h2 for the item price upon select change
-function updatePriceText(){
-    let chosenSize = document.getElementById("selects").value;
-    let price = 0;
-    for (let i = 0; i < sizePrices.length; i++){
-        if (sizePrices[i]["letter"] == chosenSize){
-            price = sizePrices[i]["price"];
-        }
-    }
-    document.getElementById("price-txt").innerHTML = "$" + price;
-}
-
-// show and hide cart popup table
-const cartImage = document.getElementById("cart");
-const cartPopup = document.getElementById("cart-popup");
-
-cartImage.addEventListener('mouseover', () => {
-    cartPopup.style.display = 'block';
-});
-
-cartImage.addEventListener('mouseout', () => {
-    cartPopup.style.display = 'none';
-});
-
-// populate table with localStorage data
-function populateCartTable(){
-    let cartPopupTable = document.getElementById("cart-popup-table");
-
-    // if there are no items in the cart, show "No items in cart", else populate
-    if (shoppingCartItems.length == 0){
-            cartPopupTable.innerHTML = 
+        // populates select sizes
+        sizeSelect.append(
             `
-            <tr>
-                <td style="border: none; font-weight: bold;">No items in cart</td>
-            </tr>
-            `
-    } else {
-        cartPopupTable.innerHTML = 
-            `
-            <tr>
-                <th>Item</th>
-                <th>Price</th>
-            </tr>
-            `
-            
-        for (let i = 0; i < shoppingCartItems.length; i++){
-            cartPopupTable.innerHTML +=
-                `
-                <tr>
-                    <td>${shoppingCartItems[i]['letter']}</td>
-                    <td>$${shoppingCartItems[i]['price']}</td>
-                </tr>
-                `
-        }        
-        cartPopupTable.innerHTML +=
-        `
-        <tr>
-            <td class="total-section">Subtotal:</td>
-            <td class="total-section" style="text-align: left">
-                $${subtotal.toFixed(2)}</td>
-        </tr>
-        <tr>
-            <td class="total-section">Tax:</td>
-            <td class="total-section" style="text-align: left">
-                $${taxed.toFixed(2)}</td>
-        </tr>
-        <tr>
-            <td class="total-section">Total:</td>
-            <td class="total-section" style="text-align: left">
-                $${total.toFixed(2)}</td>
-        </tr>
-        `
+            <option value="${key.letter}">${key.letter}</option>
+            `);
+    });
+
+    // populates select colors
+    $.each(shirtColors, function(i, key){
+        colorSelect.append(`
+            <option value="${key.color}">${key.color}</option>
+            `);
+    })
+
+    // visual element changes
+    // when the user selects a different size, the h2 price changes
+    sizeSelect.change(function(){
+        $.each(shirtSizes, function(i, key){
+            if (sizeSelect.val() == key.letter){
+                $("#price-txt").text("$" + key.price);
+            }
+        })
+    });
+
+    // when the user selects a different color, the image changes
+    colorSelect.change(function(){
+        $.each(shirtColors, function(i, key){
+            if (colorSelect.val() == key.color){
+                $("#shirt-img").attr("src", key.path);
+            }
+        })
+    })
+
+    // when the user adds an item to the cart
+    addToCartBtn.click(function(){
+        let sizeStr = "";
+        let colorStr = "";
+        let modalMsg = [];
+        $.each(shirtSizes, function(i, key){
+            if (sizeSelect.val() == key.letter){
+                sizeStr = [key.size, key.letter, key.price].join(",");
+                modalMsg.push(key.size, key.price);
+            };
+        });
+        $.each(shirtColors, function(i, key){
+            if (colorSelect.val() == key.color){
+                colorStr = [key.color, key.path].join(",");
+                modalMsg.push(key.color);
+            }
+        });
+
+        concatStr = sizeStr + "," + colorStr;
+
+        localStorage.setItem("cartItem" + getNextCartItemId(), concatStr);
+        console.log(localStorage);
+        updateCartArr();
+        updateModalMessage(modalMsg);
+    });
+
+    // zeros out shoppingCartItems to repopulate with new localStorage variables
+    function updateCartArr(){
+        subtotal = 0;
+        shoppingCartItems = [];
+        let localStorageArr = Object.keys(localStorage);
+
+        $.each(localStorageArr, function(i){
+            let workingDict = {};
+            let workingStr = "";
+
+            try {
+                let str = localStorage.getItem("cartItem" + i);
+                workingStr = str.split(",");
+                workingStr[2] = Number(workingStr[2]);
+
+                workingDict['size'] = workingStr[0];
+                workingDict['letter'] = workingStr[1];
+                workingDict['price'] = workingStr[2];
+                workingDict['color'] = workingStr[3];
+                workingDict['pic'] = workingStr[4];
+
+                shoppingCartItems.push(workingDict);
+                subtotal += shoppingCartItems[i]['price'];
+            } catch (e){
+                return e;
+            }            
+        });
+        taxed = (subtotal * taxRate);
+        total = (subtotal + taxed);
+        updateCartTable();
     };
-}
 
-// MODAL CODE
-const modal = document.getElementById("modal");
-const addToCartBtn = document.getElementById("add-to-cart-btn");
-const modalCloseBtn = document.getElementsByClassName("closeBtn")[0];
+    // updates the popup cart table
+    function updateCartTable(){
+        let popupTable = $("#cart-popup-table");
 
-addToCartBtn.onclick = function() {
-    sizeSelection(document.getElementById('selects').value);
-    modal.style.display = "block";
-  
-}
+        if (shoppingCartItems.length == 0){
+            popupTable.html(`
+                <tr>
+                    <td style="border: none; font-weight: bold;">
+                        No items in cart
+                    </td>
+                </tr>
+                `);
+        } else {
+            // headers
+            popupTable.html(`
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                <tr>
+                `
+            );
 
-modalCloseBtn.onclick = function() {
-  modal.style.display = "none";
-}
+            // shopping cart items
+            $.each(shoppingCartItems, function(i, key){
+                popupTable.append(`
+                    <tr>
+                        <td>${key.letter} ${key.color} Shirt</td>
+                        <td>$${key.price}</td>
+                    </tr>
+                    `);
+            });
+            // subtotal, tax, and total section
+            popupTable.append(`
+                <tr>
+                    <td class="total-section">Subtotal:</td>
+                    <td class="total-section" style="text-align: left">
+                        $${subtotal.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td class="total-section">Tax:</td>
+                    <td class="total-section" style="text-align: left">
+                        $${taxed.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td class="total-section">Total:</td>
+                    <td class="total-section" style="text-align: left">
+                        $${total.toFixed(2)}</td>
+                </tr>
+            `);
+        };
+    };
 
-// clicking anywhere on the screen also closes it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+    // popups
+    const cartPopup = $("#cart-popup");
+    const cart = $("#cart");
+    cart.hover(function(){
+        cartPopup.addClass('show');
+    },
+    function(){
+        cartPopup.removeClass('show');
+    });
+    
+    cart.click(function(){
+        window.location.href='shopping_cart.html';
+    });
 
-// I don't think localstorage.length is a good long term solution. Because if 
-// you need to add other things to localstorage, then you may start skipping 
-// indexes. Maybe add an Id generator to be more reliable in the long term:
+    // modal
+    modalCloseBtn.click(function(){
+        modal.removeClass('show');
+    });
 
-function getNextCartItemId() {  
-    let counter = localStorage.getItem('cartItemCounter');  
-    if (counter === null) {  
-        counter = 0;  
-    } else {  
-        counter = parseInt(counter) + 1;  
-    }  
-    localStorage.setItem('cartItemCounter', counter);  
-    return counter;  
-}  
+    addToCartBtn.click(function(){
+        modal.addClass('show');
+    });
+
+    function updateModalMessage(modalMsg){
+        modalMessage.text(`
+            ${modalMsg[0]} ${modalMsg[2]} Shirt Added (Costs $${modalMsg[1]}) - Total $${total.toFixed(2)}
+            `)
+    };
+});

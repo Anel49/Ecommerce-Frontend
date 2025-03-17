@@ -3,13 +3,14 @@
     <head>
         <meta charset="utf-8">
         <title>Shirt Shopper</title>
-        <link rel="icon" type="icon" href="imgs/ss-logo.ico">
+        <link rel="icon" type="image/x-icon" href="imgs/ss-logo.ico">
         <link rel="stylesheet" href="styles.css">
-        <script src="product.js" async></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
+        <script src="product-jquery.js"></script>
     </head>
     <body>
         <nav>
-            <img id="cart" src="imgs/cart.png">
+            <img id="cart" src="imgs/cart.png" alt="Checkout Cart Icon">
             <div id="cart-popup">
                 <table id="cart-popup-table"></table>
             </div>
@@ -17,7 +18,7 @@
 
         <h1>Shirt</h1>
         <div id="main-content">            
-            <img src="imgs/products/navy-shirtfront.png" 
+            <img id="shirt-img" src="imgs/products/black-shirtfront.png" 
                 alt="Image of a blue shirt" id="shirtimg" width="400" 
                 height="400">
             <section>
@@ -31,10 +32,15 @@
             </section>
             <h2>Available Sizes</h2>
             <section>
-                <table id="sizes-table"></table>  
+                <table id="sizes-table">
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                    </tr>
+                </table>  
 
-                <select id="selects" class="select middle field"
-                    onchange="updatePriceText()"></select>
+                <select id="sizeSelect" class="select middle field"></select>
+                <select id="colorSelect" class="select middle field"></select>
 
                 <form id="add-to-cart-form">
                     <button id="add-to-cart-btn" class="middle field" 
@@ -45,7 +51,7 @@
                 <div id="modal" class="modal">
                     <div class="modal-content">
                         <span class="closeBtn">&times;</span>
-                        <p id="modalContent"></p>
+                        <p id="modalMsg"></p>
                     </div>
                 </div>
 
