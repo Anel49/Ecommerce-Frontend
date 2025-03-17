@@ -114,10 +114,9 @@ $(document).ready(function(){
             }
         });
 
-        concatStr = sizeStr + "," + colorStr;
+        let concatStr = sizeStr + "," + colorStr;
 
         localStorage.setItem("cartItem" + getNextCartItemId(), concatStr);
-        console.log(localStorage);
         updateCartArr();
         updateModalMessage(modalMsg);
     });
