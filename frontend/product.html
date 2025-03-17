@@ -3,16 +3,26 @@
     <head>
         <meta charset="utf-8">
         <title>Shirt Shopper</title>
-        <link rel="icon" type="icon" href="imgs/ss-logo.ico">
+        <link rel="icon" type="image/x-icon" href="imgs/ss-logo.ico">
         <link rel="stylesheet" href="styles.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
+        <script src="product.js"></script>
     </head>
     <body>
+        <nav>
+            <img id="cart" src="imgs/cart.png" alt="Checkout Cart Icon">
+            <div id="cart-popup">
+                <table id="cart-popup-table"></table>
+            </div>
+        </nav>
+
         <h1>Shirt</h1>
-        <div>            
-            <img src="imgs/products/navy-shirtfront.png" 
-                 alt="Image of a blue shirt" id="shirtimg" width="400" 
-                 height="400">
+        <div id="main-content">            
+            <img id="shirt-img" src="imgs/products/black-shirtfront.png" 
+                alt="Image of a blue shirt" width="400" 
+                height="400">
             <section>
+                <h2 id="price-txt">$19.99</h2>
                 <h2>Description</h2>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -20,37 +30,33 @@
                     potenti. Donect non nisi id nisi pretium tincidunt.
                 </p>
             </section>
-
-            <form action="">
-                <input id="add-to-cart-btn" type="submit" value="Add to Cart">
-            </form>
-
             <h2>Available Sizes</h2>
             <section>
-                <table>
+                <table id="sizes-table">
                     <tr>
-                        <th>Size</th>
-                        <th>Availability</th>
+                        <th>Item</th>
+                        <th>Price</th>
                     </tr>
-                    <tr>
-                        <td>Small</td>
-                        <td>In Stock</td>
-                    </tr>
-                    <tr>
-                        <td>Medium</td>
-                        <td>In Stock</td>
-                    </tr>
-                    <tr>
-                        <td>Large</td>
-                        <td>Out of Stock</td>
-                    </tr>
-                    <tr>
-                        <td>Extra Large</td>
-                        <td>In Stock</td>
-                    </tr>
-                </table>
+                </table>  
+
+                <select id="sizeSelect" class="select middle field"></select>
+                <select id="colorSelect" class="select middle field"></select>
+
+                <form id="add-to-cart-form">
+                    <button id="add-to-cart-btn" class="middle field" 
+                        type="button">
+                        Add to Cart</button>
+                </form>
+                
+                <div id="modal" class="modal">
+                    <div class="modal-content">
+                        <span class="closeBtn">&times;</span>
+                        <p id="modalMsg"></p>
+                    </div>
+                </div>
+
             </section>        
-        </div>        
+        </div>
         <footer>&copy; 2025 Shirt Shopper Corp.</footer>
     </body>
 </html>

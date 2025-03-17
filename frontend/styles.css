@@ -1,15 +1,17 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #F0F0F0;
-    margin: 0 auto;
-    width: 45%;
-    margin-bottom: 20px;
+    background-color: #FFC244;
 }
 div {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    border: 5px solid #E9E9E9;
+    border: 1px solid #e6e6e6; 
+}
+#main-content {       
+    margin: 0 auto;
+    width: 45%;
+    margin-bottom: 20px;
 }
 h1 {
     text-align: center;
@@ -17,9 +19,11 @@ h1 {
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 18px;
+    table-layout: fixed;
 }
 th {
-    background-color: #F0F0F0;
+    background-color: #FFC244;
 }
 th, td {
     text-align: left;
@@ -33,15 +37,77 @@ p {
 footer {
     padding-top: 16px;
     text-align: center;
-    color: #646464;
+    padding-bottom: 30px;
+}
+.middle {
+    display: block;
+    margin: 0 auto;
+}
+.field {
+    border: none;
+    padding: 9px;
+    border-radius: 5px;
 }
 #add-to-cart-btn {
     background-color: #007AFE;
     color: white;
+    width: 100px;
+    cursor: pointer;
+}
+.select {
+    background-color: #e6e6e6;
     padding: 9px;
     border-radius: 5px;
-    width: 100px;
+    margin-bottom: 18px;
+}
+#cart {
+    width: 2%;
+    float: right;
+    position:absolute;
+    right: 28px;
+    cursor: pointer;
+}
+#cart-popup {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 62px;
+    width: 280px;
+}
+.total-section {
     border: none;
-    display: block;
-    margin: 0 auto;
+    font-weight: bold;
+    text-align: right;
+    padding-bottom: 0;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: -20px;
+    top: 0;
+    border: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}  
+.modal-content {
+    background-color: white;
+    border: none;
+    margin: 18% auto;
+    width: 40%;
+}
+.closeBtn {
+    color: #cccccc;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.closeBtn:hover,
+.closeBtn:focus {
+cursor: pointer;
+color: #646464;
+}
+.show {
+    display: block !important;
 }
