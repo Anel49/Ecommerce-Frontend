@@ -2,6 +2,17 @@
 let subtotal = 0, taxed = 0, total = 0;
 const taxRate = 0.06;
 let shoppingCartItems = [];
+// color dictionary array for when I implement colors
+let shirtColors = [
+    {color: "Black", path: "./imgs/products/black-shirtfront.png"},
+    {color: "Blue", path: "./imgs/products/blue-shirtfront.png"},
+    {color: "Gray", path: "./imgs/products/gray-shirtfront.png"},
+    {color: "Maroon", path: "./imgs/products/maroon-shirtfront.png"},
+    {color: "Navy", path: "./imgs/products/navy-shirtfront.png"},
+    {color: "Red", path: "./imgs/products/red-shirtfront.png"},
+    {color: "Tan", path: "./imgs/products/tan-shirtfront.png"},
+    {color: "White", path: "./imgs/products/white-shirtfront.png"}
+];
 
 // array of dictionary objects with full size names, size letters, and prices
 let sizePrices = [
@@ -40,7 +51,8 @@ $(document).ready(function(){
 
     // populating table and select sizes
     let table = $("#sizes-table");
-    let selects = $("#selects");
+    let sizeSelect = $("#sizeSelect");
+    let colorSelect = $("#colorSelect");
 
     $.each(sizePrices, function(i, key){
         // table
@@ -50,25 +62,41 @@ $(document).ready(function(){
         row.append("</tr>");
         table.append(row);
         // size selections
-        selects.append(
+        sizeSelect.append(
             `
             <option value="${key.letter}">${key.letter}</option>
             `);
     });
 
+    $.each(shirtColors, function(i, key){
+        colorSelect.append(`
+            <option value="${key.color}">${key.color}</option>
+            `);
+    })
+
+    // changes
     // when the user selects a different size, the h2 price changes
-    selects.change(function(){
+    sizeSelect.change(function(){
         $.each(sizePrices, function(i, key){
-            if (selects.val() == key.letter){
+            if (sizeSelect.val() == key.letter){
                 $("#price-txt").text("$" + key.price);
             }
         })
     });
 
+    //when the user selects a different color, the image changes
+    colorSelect.change(function(){
+        $.each(shirtColors, function(i, key){
+            if (colorSelect.val() == key.color){
+                $("#shirt-img").attr("src", key.path);
+            }
+        })
+    })
+
     // when the user adds an item to the cart
     addToCartBtn.click(function(){
         $.each(sizePrices, function(i, key){
-            if (selects.val() == key.letter){
+            if (sizeSelect.val() == key.letter){
                 let storageStr = [key.size, key.letter, key.price].join(",");
                 localStorage.setItem("cartItem" + getNextCartItemId(), storageStr);
                 // TODO update the user's cart with this new localStorage addition
@@ -76,7 +104,6 @@ $(document).ready(function(){
                 updateModalMessage(key.letter, key.price);                
             };
         });
-        modal.css("display", "block");
     });
 
     // zeros out shoppingCartItems to repopulate with new localStorage variables
@@ -162,22 +189,26 @@ $(document).ready(function(){
     };
 
     // popups
-    // can't figure out a way to not use explicit CSS to show/hide
-    // cart
     const cartPopup = $("#cart-popup");
-    $("#cart").hover(function(){
-        cartPopup.css("display",  "block");
+    const cart = $("#cart");
+    cart.hover(function(){
+        cartPopup.addClass('show');
     },
     function(){
-        cartPopup.css("display", "none");
-    });    
-    // modal
-    addToCartBtn.click(function(){
-        modal.css("display", "block");
+        cartPopup.removeClass('show');
+    });
+    
+    cart.click(function(){
+        window.location.href='shopping_cart.html';
     });
 
+    // modal
     modalCloseBtn.click(function(){
-        modal.css("display", "none");
+        modal.removeClass('show');
+    });
+
+    addToCartBtn.click(function(){
+        modal.addClass('show');
     });
 
     function updateModalMessage(letter, price){
