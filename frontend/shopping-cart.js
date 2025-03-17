@@ -4,14 +4,14 @@ const taxRate = 0.06;
 let shoppingCartItems = [];
 // color dictionary array for when I implement colors
 let shirtColors = [
-    {color: "black", path: "./imgs/products/black-shirtfront.png"},
-    {color: "blue", path: "./imgs/products/blue-shirtfront.png"},
-    {color: "gray", path: "./imgs/products/gray-shirtfront.png"},
-    {color: "maroon", path: "./imgs/products/maroon-shirtfront.png"},
-    {color: "navy", path: "./imgs/products/navy-shirtfront.png"},
-    {color: "red", path: "./imgs/products/red-shirtfront.png"},
-    {color: "tan", path: "./imgs/products/tan-shirtfront.png"},
-    {color: "white", path: "./imgs/products/white-shirtfront.png"}
+    {color: "Black", path: "./imgs/products/black-shirtfront.png"},
+    {color: "Blue", path: "./imgs/products/blue-shirtfront.png"},
+    {color: "Gray", path: "./imgs/products/gray-shirtfront.png"},
+    {color: "Maroon", path: "./imgs/products/maroon-shirtfront.png"},
+    {color: "Navy", path: "./imgs/products/navy-shirtfront.png"},
+    {color: "Red", path: "./imgs/products/red-shirtfront.png"},
+    {color: "Tan", path: "./imgs/products/tan-shirtfront.png"},
+    {color: "White", path: "./imgs/products/white-shirtfront.png"}
 ];
 
 $(document).ready(function(){
@@ -20,7 +20,7 @@ $(document).ready(function(){
     updateCartTable();
     console.log(shoppingCartItems);
 
-
+    // zeros out shoppingCartItems to repopulate with new localStorage variables
     function updateCartArr(){
         subtotal = 0;
         shoppingCartItems = [];
@@ -38,6 +38,8 @@ $(document).ready(function(){
                 workingDict['size'] = workingStr[0];
                 workingDict['letter'] = workingStr[1];
                 workingDict['price'] = workingStr[2];
+                workingDict['color'] = workingStr[3];
+                workingDict['pic'] = workingStr[4];
 
                 shoppingCartItems.push(workingDict);
                 subtotal += shoppingCartItems[i]['price'];
@@ -47,6 +49,7 @@ $(document).ready(function(){
         });
         taxed = (subtotal * taxRate);
         total = (subtotal + taxed);
+        updateCartTable();
     };
 
     // updates the cart table
@@ -79,9 +82,9 @@ $(document).ready(function(){
             $.each(shoppingCartItems, function(i, key){
                 popupTable.append(`
                     <tr>
-                        <td><img src="${shirtColors[4].path}"
+                        <td><img src="${key.pic}"
                              alt="Navy Shirt"></td>
-                        <td>${key.letter} Navy Shirt</td>
+                        <td>${key.letter} ${key.color} Shirt</td>
                         <td>$${key.price}</td>
                         <td>1</td>
                         <td>$${key.price}</td>

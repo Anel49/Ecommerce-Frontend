@@ -15,13 +15,13 @@ let shirtColors = [
 ];
 
 // array of dictionary objects with full size names, size letters, and prices
-let sizePrices = [
-    {size: "Extra Small", letter: "XS", price: 19.99, availability: "In Stock"},
-    {size: "Small", letter: "S", price: 21.99, availability: "In Stock"},
-    {size: "Medium", letter: "M", price: 23.99, availability: "In Stock"},
-    {size: "Large", letter: "L", price: 25.99, availability: "Out of Stock"},
-    {size: "Extra Large", letter: "XL", price: 27.99, availability: "Out of Stock"},
-    {size: "Extra Extra Large", letter: "XXL", price: 29.99, availability: "In Stock"}
+const shirtSizes = [
+    {size: "Extra Small", letter: "XS", price: 19.99},
+    {size: "Small", letter: "S", price: 21.99},
+    {size: "Medium", letter: "M", price: 23.99},
+    {size: "Large", letter: "L", price: 25.99},
+    {size: "Extra Large", letter: "XL", price: 27.99},
+    {size: "Extra Extra Large", letter: "XXL", price: 29.99}
 ];
 
 $(document).ready(function(){
@@ -49,42 +49,45 @@ $(document).ready(function(){
         return counter;
     }
 
-    // populating table and select sizes
+    // table and select element vars
     let table = $("#sizes-table");
     let sizeSelect = $("#sizeSelect");
     let colorSelect = $("#colorSelect");
 
-    $.each(sizePrices, function(i, key){
+    // populates table
+    $.each(shirtSizes, function(i, key){
         // table
         let row = $("<tr>");
         row.append("<td>" + key.letter + "</td>");
         row.append("<td>$" + key.price + "</td>");
         row.append("</tr>");
         table.append(row);
-        // size selections
+
+        // populates select sizes
         sizeSelect.append(
             `
             <option value="${key.letter}">${key.letter}</option>
             `);
     });
 
+    // populates select colors
     $.each(shirtColors, function(i, key){
         colorSelect.append(`
             <option value="${key.color}">${key.color}</option>
             `);
     })
 
-    // changes
+    // visual element changes
     // when the user selects a different size, the h2 price changes
     sizeSelect.change(function(){
-        $.each(sizePrices, function(i, key){
+        $.each(shirtSizes, function(i, key){
             if (sizeSelect.val() == key.letter){
                 $("#price-txt").text("$" + key.price);
             }
         })
     });
 
-    //when the user selects a different color, the image changes
+    // when the user selects a different color, the image changes
     colorSelect.change(function(){
         $.each(shirtColors, function(i, key){
             if (colorSelect.val() == key.color){
@@ -95,15 +98,28 @@ $(document).ready(function(){
 
     // when the user adds an item to the cart
     addToCartBtn.click(function(){
-        $.each(sizePrices, function(i, key){
+        let sizeStr = "";
+        let colorStr = "";
+        let modalMsg = [];
+        $.each(shirtSizes, function(i, key){
             if (sizeSelect.val() == key.letter){
-                let storageStr = [key.size, key.letter, key.price].join(",");
-                localStorage.setItem("cartItem" + getNextCartItemId(), storageStr);
-                // TODO update the user's cart with this new localStorage addition
-                updateCartArr();
-                updateModalMessage(key.letter, key.price);                
+                sizeStr = [key.size, key.letter, key.price].join(",");
+                modalMsg.push(key.size, key.price);
             };
         });
+        $.each(shirtColors, function(i, key){
+            if (colorSelect.val() == key.color){
+                colorStr = [key.color, key.path].join(",");
+                modalMsg.push(key.color);
+            }
+        });
+
+        concatStr = sizeStr + "," + colorStr;
+
+        localStorage.setItem("cartItem" + getNextCartItemId(), concatStr);
+        console.log(localStorage);
+        updateCartArr();
+        updateModalMessage(modalMsg);
     });
 
     // zeros out shoppingCartItems to repopulate with new localStorage variables
@@ -124,6 +140,8 @@ $(document).ready(function(){
                 workingDict['size'] = workingStr[0];
                 workingDict['letter'] = workingStr[1];
                 workingDict['price'] = workingStr[2];
+                workingDict['color'] = workingStr[3];
+                workingDict['pic'] = workingStr[4];
 
                 shoppingCartItems.push(workingDict);
                 subtotal += shoppingCartItems[i]['price'];
@@ -162,7 +180,7 @@ $(document).ready(function(){
             $.each(shoppingCartItems, function(i, key){
                 popupTable.append(`
                     <tr>
-                        <td>${key.letter}</td>
+                        <td>${key.letter} ${key.color} Shirt</td>
                         <td>$${key.price}</td>
                     </tr>
                     `);
@@ -211,9 +229,9 @@ $(document).ready(function(){
         modal.addClass('show');
     });
 
-    function updateModalMessage(letter, price){
+    function updateModalMessage(modalMsg){
         modalMessage.text(`
-            ${letter} Shirt Added (Costs $${price}) - Total $${total.toFixed(2)}
+            ${modalMsg[0]} ${modalMsg[2]} Shirt Added (Costs $${modalMsg[1]}) - Total $${total.toFixed(2)}
             `)
     };
 });
