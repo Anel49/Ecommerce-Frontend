@@ -18,15 +18,14 @@ $(document).ready(function(){
 
     updateCartArr();
     updateCartTable();
-    console.log(shoppingCartItems);
 
-    // zeros out shoppingCartItems to repopulate with new localStorage variables
+    // empties shoppingCartItems to repopulate with new localStorage variables
     function updateCartArr(){
         subtotal = 0;
         shoppingCartItems = [];
-        let localStorageArr = Object.keys(localStorage);
+        let localStorageKeys = Object.keys(localStorage);
 
-        $.each(localStorageArr, function(i){
+        $.each(localStorageKeys, function(i){
             let workingDict = {};
             let workingStr = "";
 
@@ -45,8 +44,48 @@ $(document).ready(function(){
                 subtotal += shoppingCartItems[i]['price'];
             } catch (e){
                 return e;
-            }            
+            }
         });
+        taxed = (subtotal * taxRate);
+        total = (subtotal + taxed);
+        updateCartTable();
+    };
+
+    // creates or changes "cartItemCount"'s value and assigns num for next index
+    function getNextCartItemId(){
+        let counter = localStorage.getItem("lastIndex");
+        if (counter === null){
+            counter = 0;
+        } else {
+            counter = parseInt(counter) + 1;
+        }
+        localStorage.setItem("lastIndex", counter);
+        return counter;
+    }
+
+    // empties shoppingCartItems to repopulate with new localStorage variables
+    function cartToLocalStorage(){
+        let newCartArr = [];
+        let localStorageKeys = Object.keys(localStorage);
+
+        $.each(localStorageKeys, function(i){
+            try {
+                let str = localStorage.getItem("cartItem" + i);
+                if (str !== null){
+                    newCartArr.push(str);
+                }
+            } catch (e){
+                return e;
+            }
+        });
+        
+        localStorage.clear();
+
+        $.each(newCartArr, function(i){
+            localStorage.setItem("cartItem" + getNextCartItemId(), newCartArr[i]);
+        });
+
+        updateCartArr();
         taxed = (subtotal * taxRate);
         total = (subtotal + taxed);
         updateCartTable();
@@ -55,6 +94,7 @@ $(document).ready(function(){
     // updates the cart table
     function updateCartTable(){
         let popupTable = $("#main-content");
+        let checkoutBtn = $("#checkout-btn");
 
         if (shoppingCartItems.length == 0){
             popupTable.html(`
@@ -64,6 +104,8 @@ $(document).ready(function(){
                     </td>
                 </tr>
                 `);
+            checkoutBtn.html(``);
+
         } else {
             // headers
             popupTable.html(`
@@ -81,14 +123,15 @@ $(document).ready(function(){
             // shopping cart items
             $.each(shoppingCartItems, function(i, key){
                 popupTable.append(`
-                    <tr>
+                    <tr id="cartItem${i}">
                         <td><img src="${key.pic}"
                              alt="Navy Shirt"></td>
                         <td>${key.letter} ${key.color} Shirt</td>
                         <td>$${key.price}</td>
                         <td>1</td>
                         <td>$${key.price}</td>
-                        <td><input type="submit" value="Remove"></td>
+                        <td><input type="submit" value="Remove" 
+                            class="removeBtn"></td>
                     </tr>
                     `);
             });
@@ -111,6 +154,22 @@ $(document).ready(function(){
                     <td>$${total.toFixed(2)}</td>
                 </tr>
             `);
+
+            checkoutBtn.html(`
+                <input type="submit" value="Checkout">
+                `);
         };
     };
+
+    // removes matching entry from shoppingCartItems
+    $(document).on('click', '.removeBtn', function(){
+        let rowName = $(this).closest("tr").attr("id");
+        $.each(localStorage, function(key, val){
+            if (rowName == key){
+                localStorage.removeItem(key);
+                cartToLocalStorage();
+                updateCartTable();
+            };
+        });
+    });
 });
