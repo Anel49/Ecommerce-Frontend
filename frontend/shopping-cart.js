@@ -188,7 +188,7 @@ $(document).ready(function(){
 
             checkoutBtn.html(`
                 <input type="submit" value="Checkout">
-                `);
+            `);
         };
     };
 

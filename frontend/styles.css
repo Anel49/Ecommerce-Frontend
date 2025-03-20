@@ -1,3 +1,7 @@
+@font-face {
+    font-family: customFont;
+    src: url(Vegan.ttf);
+}
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #FFC244;
@@ -6,6 +10,26 @@ div {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+li {
+    float: left;
+}
+.logo {
+    font-size: 20pt;
+    font-family: customFont;
+    font-weight: lighter;
+}
+li a {
+    line-height: 30px;
+    display: block;
+    color: black;
+    padding: 14px 16px;
 }
 #main-content {       
     margin: 0 auto;
@@ -48,8 +72,8 @@ footer {
     border-radius: 5px;
 }
 #add-to-cart-btn {
-    background-color: #007AFE;
-    color: white;
+    background-color: #FFC244;
+    color: black;
     width: 100px;
     cursor: pointer;
 }
@@ -73,6 +97,7 @@ footer {
     right: 62px;
     width: 350px;
     border: 1px solid #FFC244;
+    padding-bottom: 0;
 }
 .total-section {
     border: none;
@@ -105,8 +130,8 @@ footer {
 }
 .closeBtn:hover,
 .closeBtn:focus {
-cursor: pointer;
-color: #646464;
+    cursor: pointer;
+    color: #646464;
 }
 .show {
     display: block !important;
