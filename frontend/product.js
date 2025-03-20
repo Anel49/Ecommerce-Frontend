@@ -125,7 +125,7 @@ $(document).ready(function(){
     function updateCartArr(){
         subtotal = 0;
         shoppingCartItems = [];
-        let localStorageArr = Object.keys(localStorage);
+        const localStorageArr = Object.keys(localStorage);
 
         $.each(localStorageArr, function(i){
             let workingDict = {};
@@ -267,18 +267,4 @@ $(document).ready(function(){
             ${modalMsg[0]} ${modalMsg[2]} Shirt Added (Costs $${modalMsg[1]}) - Total $${total.toFixed(2)}
             `)
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });

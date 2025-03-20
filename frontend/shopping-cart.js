@@ -23,7 +23,7 @@ $(document).ready(function(){
     function updateCartArr(){
         subtotal = 0;
         shoppingCartItems = [];
-        let localStorageArr = Object.keys(localStorage);
+        const localStorageArr = Object.keys(localStorage);
 
         $.each(localStorageArr, function(i){
             let workingDict = {};
@@ -31,7 +31,7 @@ $(document).ready(function(){
             let unmatched = false;
 
             try {
-                let str = localStorage.getItem("cartItem" + i);
+                const str = localStorage.getItem("cartItem" + i);
                 
                 workingStr = str.split(",");
                 workingStr[2] = Number(workingStr[2]);
@@ -50,7 +50,7 @@ $(document).ready(function(){
                     // taking count of items
                     $.each(shoppingCartItems, function(j){
                         unmatched = false;
-                        let {count, ...sciString} = shoppingCartItems[j];
+                        const {count, ...sciString} = shoppingCartItems[j];
 
                         if (JSON.stringify(workingDict) == JSON.stringify(sciString)){
                             shoppingCartItems[j]['count'] += 1;
@@ -96,7 +96,7 @@ $(document).ready(function(){
     // empties shoppingCartItems to repopulate with new localStorage variables
     function cartToLocalStorage(){
         let newCartArr = [];
-        let localStorageKeys = Object.keys(localStorage);
+        const localStorageKeys = Object.keys(localStorage);
 
         $.each(localStorageKeys, function(i){
             try {
@@ -194,7 +194,7 @@ $(document).ready(function(){
 
     // removes matching entry from localStorage
     $(document).on('click', '.removeBtn', function(){
-        let rowName = $(this).closest("tr").attr("id");
+        const rowName = $(this).closest("tr").attr("id");
         
         $.each(localStorage, function(key, val){
             console.log("rowName:", rowName);
