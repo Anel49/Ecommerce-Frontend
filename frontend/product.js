@@ -179,6 +179,22 @@ $(document).ready(function(){
 
         taxed = (subtotal * taxRate);
         total = (subtotal + taxed);
+
+        // keeps the number centered
+        let cartCounterText = $("#cart-counter");
+
+        if ((localStorageArr.length < (11))){
+            cartCounterText.css("padding-right", "33px");
+        } else {
+            cartCounterText.css("padding-right", "29px");
+        }
+
+        if (localStorageArr.length == 0){            
+            cartCounterText.html("0");
+        } else {
+            cartCounterText.html(localStorageArr.length - 1);
+        }
+        
         updateCartTable();
     };
 
@@ -189,7 +205,7 @@ $(document).ready(function(){
         if (shoppingCartItems.length == 0){
             popupTable.html(`
                 <tr>
-                    <td style="border: none; font-weight: bold;">
+                    <td style="border: none; font-weight: bold; text-align: center">
                         No items in cart
                     </td>
                 </tr>
@@ -213,7 +229,7 @@ $(document).ready(function(){
                     <tr>
                         <td>${key.letter} ${key.color} Shirt</td>
                         <td>$${key.price}</td>
-                        <td>${key.count}</td>
+                        <td style="text-align: center">${key.count}</td>
                         <td>$${rowTotal.toFixed(2)}</td>
                     </tr>
                     `);
@@ -221,18 +237,24 @@ $(document).ready(function(){
             // subtotal, tax, and total section
             popupTable.append(`
                 <tr>
+                    <td class="total-section"></td>
+                    <td class="total-section"></td>
                     <td class="total-section">Subtotal:</td>
                     <td class="total-section" style="text-align: left">
                         $${subtotal.toFixed(2)}</td>
                 </tr>
                 <tr>
+                    <td class="total-section"></td>
+                    <td class="total-section"></td>
                     <td class="total-section">Tax:</td>
                     <td class="total-section" style="text-align: left">
                         $${taxed.toFixed(2)}</td>
                 </tr>
                 <tr>
+                    <td class="total-section"></td>
+                    <td class="total-section"></td>
                     <td class="total-section">Total:</td>
-                    <td class="total-section" style="text-align: left">
+                    <td class="total-section end" style="text-align: left">
                         $${total.toFixed(2)}</td>
                 </tr>
             `);
@@ -241,7 +263,7 @@ $(document).ready(function(){
 
     // popups
     const cartPopup = $("#cart-popup");
-    const cart = $("#cart");
+    const cart = $("#cart-counter");
     cart.hover(function(){
         cartPopup.addClass('show');
     },

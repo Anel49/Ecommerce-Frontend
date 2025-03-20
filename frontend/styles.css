@@ -1,3 +1,7 @@
+@font-face {
+    font-family: customFont;
+    src: url(Vegan.ttf);
+}
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #FFC244;
@@ -6,6 +10,28 @@ div {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+li {
+    float: left;
+}
+.logo {
+    font-size: 20pt;
+    font-family: customFont;
+    font-weight: lighter;
+}
+li a {
+    line-height: 30px;
+    display: block;
+    color: black;
+    text-align: right;
+    padding: 14px 16px;
+    text-decoration: none;
 }
 #main-content {       
     margin: 0 auto;
@@ -48,10 +74,11 @@ footer {
     border-radius: 5px;
 }
 #add-to-cart-btn {
-    background-color: #007AFE;
-    color: white;
+    background-color: #FFC244;
+    color: black;
     width: 100px;
     cursor: pointer;
+    font-weight: bold;
 }
 .select {
     background-color: #e6e6e6;
@@ -60,19 +87,26 @@ footer {
     margin-bottom: 18px;
 }
 #cart {
-    width: 2%;
+    padding-top: 10px;
+    width: 48px;
+    height: 48px;
     float: right;
     position:absolute;
     right: 28px;
     cursor: pointer;
+    z-index: -1;
 }
 #cart-popup {
     display: none;
     position: absolute;
     top: 60px;
     right: 62px;
-    width: 350px;
+    width: 390px;
     border: 1px solid #FFC244;
+    padding-bottom: 0;
+}
+#cart-popup th, #cart-popup td {
+    text-align: center;
 }
 .total-section {
     border: none;
@@ -83,7 +117,6 @@ footer {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
     left: -20px;
     top: 0;
     border: none;
@@ -105,9 +138,16 @@ footer {
 }
 .closeBtn:hover,
 .closeBtn:focus {
-cursor: pointer;
-color: #646464;
+    cursor: pointer;
+    color: #646464;
 }
 .show {
     display: block !important;
+}
+#cart-counter {
+    position: block;
+    float: right;
+    padding-top: 33px;
+    padding-right: 29px;
+    cursor: pointer;
 }
