@@ -160,7 +160,7 @@ $(document).ready(function(){
                         <td>${key.letter} ${key.color} Shirt</td>
                         <td>$${key.price}</td>
                         <td>${key.count}</td>
-                        <td>$${total}</td>
+                        <td>$${parseFloat(total.toFixed(2))}</td>
                         <td><input type="submit" value="Remove" 
                             class="removeBtn"></td>
                     </tr>

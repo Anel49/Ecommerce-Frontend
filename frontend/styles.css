@@ -29,6 +29,7 @@ li a {
     line-height: 30px;
     display: block;
     color: black;
+    text-align: right;
     padding: 14px 16px;
     text-decoration: none;
 }
@@ -77,6 +78,7 @@ footer {
     color: black;
     width: 100px;
     cursor: pointer;
+    font-weight: bold;
 }
 .select {
     background-color: #e6e6e6;
@@ -85,11 +87,14 @@ footer {
     margin-bottom: 18px;
 }
 #cart {
-    width: 2%;
+    padding-top: 10px;
+    width: 48px;
+    height: 48px;
     float: right;
     position:absolute;
     right: 28px;
     cursor: pointer;
+    z-index: -1;
 }
 #cart-popup {
     display: none;
@@ -112,7 +117,6 @@ footer {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
     left: -20px;
     top: 0;
     border: none;
@@ -139,4 +143,11 @@ footer {
 }
 .show {
     display: block !important;
+}
+#cart-counter {
+    position: block;
+    float: right;
+    padding-top: 33px;
+    padding-right: 29px;
+    cursor: pointer;
 }

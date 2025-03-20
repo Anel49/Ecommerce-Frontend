@@ -179,6 +179,22 @@ $(document).ready(function(){
 
         taxed = (subtotal * taxRate);
         total = (subtotal + taxed);
+
+        // keeps the number centered
+        let cartCounterText = $("#cart-counter");
+
+        if ((localStorageArr.length < (11))){
+            cartCounterText.css("padding-right", "33px");
+        } else {
+            cartCounterText.css("padding-right", "29px");
+        }
+
+        if (localStorageArr.length == 0){            
+            cartCounterText.html("0");
+        } else {
+            cartCounterText.html(localStorageArr.length - 1);
+        }
+        
         updateCartTable();
     };
 
@@ -247,7 +263,7 @@ $(document).ready(function(){
 
     // popups
     const cartPopup = $("#cart-popup");
-    const cart = $("#cart");
+    const cart = $("#cart-counter");
     cart.hover(function(){
         cartPopup.addClass('show');
     },
