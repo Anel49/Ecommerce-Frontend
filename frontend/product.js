@@ -191,6 +191,8 @@ $(document).ready(function(){
 
         if (localStorageArr.length == 0){            
             cartCounterText.html("0");
+        } else if (localStorageArr.length > 100){
+            cartCounterText.html("99")
         } else {
             cartCounterText.html(localStorageArr.length - 1);
         }
