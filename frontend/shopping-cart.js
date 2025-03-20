@@ -19,18 +19,20 @@ $(document).ready(function(){
     updateCartArr();
     updateCartTable();
 
-    // empties shoppingCartItems to repopulate with new localStorage variables
+    // zeros out shoppingCartItems to repopulate with new localStorage variables
     function updateCartArr(){
         subtotal = 0;
         shoppingCartItems = [];
-        let localStorageKeys = Object.keys(localStorage);
+        let localStorageArr = Object.keys(localStorage);
 
-        $.each(localStorageKeys, function(i){
+        $.each(localStorageArr, function(i){
             let workingDict = {};
             let workingStr = "";
+            let unmatched = false;
 
             try {
                 let str = localStorage.getItem("cartItem" + i);
+                
                 workingStr = str.split(",");
                 workingStr[2] = Number(workingStr[2]);
 
@@ -40,16 +42,44 @@ $(document).ready(function(){
                 workingDict['color'] = workingStr[3];
                 workingDict['pic'] = workingStr[4];
 
-                shoppingCartItems.push(workingDict);
-                subtotal += shoppingCartItems[i]['price'];
+                if (shoppingCartItems.length == 0){
+                    workingDict['count'] = 1;
+                    shoppingCartItems.push(workingDict);
+                } else {
+
+                    // taking count of items
+                    $.each(shoppingCartItems, function(j){
+                        unmatched = false;
+                        let {count, ...sciString} = shoppingCartItems[j];
+
+                        if (JSON.stringify(workingDict) == JSON.stringify(sciString)){
+                            shoppingCartItems[j]['count'] += 1;
+                            return false;
+                        } else {
+                            unmatched = true;
+                        }
+                    });
+
+                    if (unmatched){
+                        workingDict['count'] = 1;
+                        shoppingCartItems.push(workingDict);
+                    }
+                };
+
             } catch (e){
                 return e;
             }
         });
+
+        $.each(shoppingCartItems, function(i){
+            subtotal += (shoppingCartItems[i]['count'] * shoppingCartItems[i]['price']);
+        });
+
         taxed = (subtotal * taxRate);
         total = (subtotal + taxed);
         updateCartTable();
     };
+
 
     // creates or changes "cartItemCount"'s value and assigns num for next index
     function getNextCartItemId(){
@@ -122,14 +152,15 @@ $(document).ready(function(){
 
             // shopping cart items
             $.each(shoppingCartItems, function(i, key){
+                const total = key.count * key.price;
                 popupTable.append(`
                     <tr id="cartItem${i}">
                         <td><img src="${key.pic}"
                              alt="Navy Shirt"></td>
                         <td>${key.letter} ${key.color} Shirt</td>
                         <td>$${key.price}</td>
-                        <td>1</td>
-                        <td>$${key.price}</td>
+                        <td>${key.count}</td>
+                        <td>$${total}</td>
                         <td><input type="submit" value="Remove" 
                             class="removeBtn"></td>
                     </tr>
@@ -161,9 +192,12 @@ $(document).ready(function(){
         };
     };
 
-    // removes matching entry from shoppingCartItems
+    // TODO localStorage is not grouped so it's incorrectly selecting the
+    // wrong item based on the row name's id
+    // removes matching entry from localStorage
     $(document).on('click', '.removeBtn', function(){
         let rowName = $(this).closest("tr").attr("id");
+        
         $.each(localStorage, function(key, val){
             if (rowName == key){
                 localStorage.removeItem(key);

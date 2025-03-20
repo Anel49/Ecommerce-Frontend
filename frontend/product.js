@@ -130,9 +130,11 @@ $(document).ready(function(){
         $.each(localStorageArr, function(i){
             let workingDict = {};
             let workingStr = "";
+            let unmatched = false;
 
             try {
                 let str = localStorage.getItem("cartItem" + i);
+                
                 workingStr = str.split(",");
                 workingStr[2] = Number(workingStr[2]);
 
@@ -142,12 +144,39 @@ $(document).ready(function(){
                 workingDict['color'] = workingStr[3];
                 workingDict['pic'] = workingStr[4];
 
-                shoppingCartItems.push(workingDict);
-                subtotal += shoppingCartItems[i]['price'];
+                if (shoppingCartItems.length == 0){
+                    workingDict['count'] = 1;
+                    shoppingCartItems.push(workingDict);
+                } else {
+
+                    // taking count of items
+                    $.each(shoppingCartItems, function(j){
+                        unmatched = false;
+                        let {count, ...sciString} = shoppingCartItems[j];
+
+                        if (JSON.stringify(workingDict) == JSON.stringify(sciString)){
+                            shoppingCartItems[j]['count'] += 1;
+                            return false;
+                        } else {
+                            unmatched = true;
+                        }
+                    });
+
+                    if (unmatched){
+                        workingDict['count'] = 1;
+                        shoppingCartItems.push(workingDict);
+                    }
+                };
+
             } catch (e){
                 return e;
-            }            
+            }
         });
+
+        $.each(shoppingCartItems, function(i){
+            subtotal += (shoppingCartItems[i]['count'] * shoppingCartItems[i]['price']);
+        });
+
         taxed = (subtotal * taxRate);
         total = (subtotal + taxed);
         updateCartTable();
@@ -170,6 +199,8 @@ $(document).ready(function(){
             popupTable.html(`
                 <tr>
                     <th>Item</th>
+                    <th>Item Price</th>
+                    <th>Quantity</th>
                     <th>Price</th>
                 <tr>
                 `
@@ -177,10 +208,13 @@ $(document).ready(function(){
 
             // shopping cart items
             $.each(shoppingCartItems, function(i, key){
+                rowTotal = key.count * key.price;
                 popupTable.append(`
                     <tr>
                         <td>${key.letter} ${key.color} Shirt</td>
                         <td>$${key.price}</td>
+                        <td>${key.count}</td>
+                        <td>$${rowTotal.toFixed(2)}</td>
                     </tr>
                     `);
             });
@@ -233,4 +267,18 @@ $(document).ready(function(){
             ${modalMsg[0]} ${modalMsg[2]} Shirt Added (Costs $${modalMsg[1]}) - Total $${total.toFixed(2)}
             `)
     };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
