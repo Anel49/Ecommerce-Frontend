@@ -154,7 +154,7 @@ $(document).ready(function(){
             $.each(shoppingCartItems, function(i, key){
                 const total = key.count * key.price;
                 popupTable.append(`
-                    <tr id="cartItem${i}">
+                    <tr id="${key.size},${key.letter},${key.price},${key.color},${key.pic}">
                         <td><img src="${key.pic}"
                              alt="Navy Shirt"></td>
                         <td>${key.letter} ${key.color} Shirt</td>
@@ -192,17 +192,18 @@ $(document).ready(function(){
         };
     };
 
-    // TODO localStorage is not grouped so it's incorrectly selecting the
-    // wrong item based on the row name's id
     // removes matching entry from localStorage
     $(document).on('click', '.removeBtn', function(){
         let rowName = $(this).closest("tr").attr("id");
         
         $.each(localStorage, function(key, val){
-            if (rowName == key){
+            console.log("rowName:", rowName);
+            console.log("localStorage val: ", val);
+            if (rowName == val){
                 localStorage.removeItem(key);
                 cartToLocalStorage();
                 updateCartTable();
+                return false;
             };
         });
     });
