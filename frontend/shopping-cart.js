@@ -18,20 +18,21 @@ $(document).ready(function(){
 
     updateCartArr();
     updateCartTable();
-    console.log(shoppingCartItems);
 
     // zeros out shoppingCartItems to repopulate with new localStorage variables
     function updateCartArr(){
         subtotal = 0;
         shoppingCartItems = [];
-        let localStorageArr = Object.keys(localStorage);
+        const localStorageArr = Object.keys(localStorage);
 
         $.each(localStorageArr, function(i){
             let workingDict = {};
             let workingStr = "";
+            let unmatched = false;
 
             try {
-                let str = localStorage.getItem("cartItem" + i);
+                const str = localStorage.getItem("cartItem" + i);
+                
                 workingStr = str.split(",");
                 workingStr[2] = Number(workingStr[2]);
 
@@ -41,12 +42,80 @@ $(document).ready(function(){
                 workingDict['color'] = workingStr[3];
                 workingDict['pic'] = workingStr[4];
 
-                shoppingCartItems.push(workingDict);
-                subtotal += shoppingCartItems[i]['price'];
+                if (shoppingCartItems.length == 0){
+                    workingDict['count'] = 1;
+                    shoppingCartItems.push(workingDict);
+                } else {
+
+                    // taking count of items
+                    $.each(shoppingCartItems, function(j){
+                        unmatched = false;
+                        const {count, ...sciString} = shoppingCartItems[j];
+
+                        if (JSON.stringify(workingDict) == JSON.stringify(sciString)){
+                            shoppingCartItems[j]['count'] += 1;
+                            return false;
+                        } else {
+                            unmatched = true;
+                        }
+                    });
+
+                    if (unmatched){
+                        workingDict['count'] = 1;
+                        shoppingCartItems.push(workingDict);
+                    }
+                };
+
             } catch (e){
                 return e;
-            }            
+            }
         });
+
+        $.each(shoppingCartItems, function(i){
+            subtotal += (shoppingCartItems[i]['count'] * shoppingCartItems[i]['price']);
+        });
+
+        taxed = (subtotal * taxRate);
+        total = (subtotal + taxed);
+        updateCartTable();
+    };
+
+
+    // creates or changes "cartItemCount"'s value and assigns num for next index
+    function getNextCartItemId(){
+        let counter = localStorage.getItem("lastIndex");
+        if (counter === null){
+            counter = 0;
+        } else {
+            counter = parseInt(counter) + 1;
+        }
+        localStorage.setItem("lastIndex", counter);
+        return counter;
+    }
+
+    // empties shoppingCartItems to repopulate with new localStorage variables
+    function cartToLocalStorage(){
+        let newCartArr = [];
+        const localStorageKeys = Object.keys(localStorage);
+
+        $.each(localStorageKeys, function(i){
+            try {
+                let str = localStorage.getItem("cartItem" + i);
+                if (str !== null){
+                    newCartArr.push(str);
+                }
+            } catch (e){
+                return e;
+            }
+        });
+        
+        localStorage.clear();
+
+        $.each(newCartArr, function(i){
+            localStorage.setItem("cartItem" + getNextCartItemId(), newCartArr[i]);
+        });
+
+        updateCartArr();
         taxed = (subtotal * taxRate);
         total = (subtotal + taxed);
         updateCartTable();
@@ -55,6 +124,7 @@ $(document).ready(function(){
     // updates the cart table
     function updateCartTable(){
         let popupTable = $("#main-content");
+        let checkoutBtn = $("#checkout-btn");
 
         if (shoppingCartItems.length == 0){
             popupTable.html(`
@@ -64,6 +134,8 @@ $(document).ready(function(){
                     </td>
                 </tr>
                 `);
+            checkoutBtn.html(``);
+
         } else {
             // headers
             popupTable.html(`
@@ -80,15 +152,17 @@ $(document).ready(function(){
 
             // shopping cart items
             $.each(shoppingCartItems, function(i, key){
+                const total = key.count * key.price;
                 popupTable.append(`
-                    <tr>
+                    <tr id="${key.size},${key.letter},${key.price},${key.color},${key.pic}">
                         <td><img src="${key.pic}"
                              alt="Navy Shirt"></td>
                         <td>${key.letter} ${key.color} Shirt</td>
                         <td>$${key.price}</td>
-                        <td>1</td>
-                        <td>$${key.price}</td>
-                        <td><input type="submit" value="Remove"></td>
+                        <td>${key.count}</td>
+                        <td>$${total}</td>
+                        <td><input type="submit" value="Remove" 
+                            class="removeBtn"></td>
                     </tr>
                     `);
             });
@@ -111,6 +185,26 @@ $(document).ready(function(){
                     <td>$${total.toFixed(2)}</td>
                 </tr>
             `);
+
+            checkoutBtn.html(`
+                <input type="submit" value="Checkout">
+                `);
         };
     };
+
+    // removes matching entry from localStorage
+    $(document).on('click', '.removeBtn', function(){
+        const rowName = $(this).closest("tr").attr("id");
+        
+        $.each(localStorage, function(key, val){
+            console.log("rowName:", rowName);
+            console.log("localStorage val: ", val);
+            if (rowName == val){
+                localStorage.removeItem(key);
+                cartToLocalStorage();
+                updateCartTable();
+                return false;
+            };
+        });
+    });
 });

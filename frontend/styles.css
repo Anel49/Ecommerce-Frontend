@@ -6,7 +6,6 @@ div {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    border: 1px solid #e6e6e6; 
 }
 #main-content {       
     margin: 0 auto;
@@ -72,7 +71,8 @@ footer {
     position: absolute;
     top: 60px;
     right: 62px;
-    width: 280px;
+    width: 350px;
+    border: 1px solid #FFC244;
 }
 .total-section {
     border: none;
