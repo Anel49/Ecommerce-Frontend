@@ -30,6 +30,7 @@ li a {
     display: block;
     color: black;
     padding: 14px 16px;
+    text-decoration: none;
 }
 #main-content {       
     margin: 0 auto;
@@ -95,9 +96,12 @@ footer {
     position: absolute;
     top: 60px;
     right: 62px;
-    width: 350px;
+    width: 390px;
     border: 1px solid #FFC244;
     padding-bottom: 0;
+}
+#cart-popup th, #cart-popup td {
+    text-align: center;
 }
 .total-section {
     border: none;
