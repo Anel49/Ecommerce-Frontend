@@ -37,11 +37,9 @@ li a {
     color: white;
     text-align: center;
     text-decoration: none;
-    padding: 18px 16px;
-    padding-bottom: 22px;
-}
-li a:hover:not(.active) {
-    background-color: #111;
+    padding: 6px 16px;
+    padding-top: 12px;
+    padding-bottom: 15px;
 }
 .active {
     background-color: #5b5b5b;
@@ -49,11 +47,14 @@ li a:hover:not(.active) {
 li:last-child {
     float: right;
 }
+li a:hover:not(.active) {
+    background-color: #111;
+  }
 .logo {
     font-family: Oakland;
     font-size: 30px;
     padding-bottom: 10px;
-    padding-top: 10px;
+    padding-top: 4px;
 }
 .product-container {
     width: 80%;
