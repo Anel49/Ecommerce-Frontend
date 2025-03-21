@@ -67,6 +67,9 @@ li a:hover:not(.active) {
     padding: 20px;
     text-align: left;
 }
+.product-container h1, h2, h3, h4, p {
+    margin: 10px;
+}
 .product-container img {
     width: 50%;
 }
