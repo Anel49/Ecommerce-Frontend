@@ -1,0 +1,70 @@
+@font-face {
+    font-family: Oakland;
+    src: url(Oakland.ttf);
+}
+@font-face {
+    font-family: Kingstone;
+    src: url(Kingstone.ttf);
+}
+html {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+footer {
+    text-align: center;
+}
+body {
+    padding-top: 70px;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    position: flex;
+}
+li {
+    float: left;
+    height: 100%;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 18px 16px;
+    padding-bottom: 22px;
+}
+li a:hover:not(.active) {
+    background-color: #111;
+}
+.active {
+    background-color: #5b5b5b;
+}
+li:last-child {
+    float: right;
+}
+.logo {
+    font-family: Oakland;
+    font-size: 30px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.product-container {
+    width: 80%;
+    display: inline-grid;
+    grid-template-columns: auto auto auto auto;
+}
+.product-container div {
+    margin: 0;
+    padding: 20px;
+    text-align: left;
+}
+.product-container img {
+    width: 50%;
+}
