@@ -27,6 +27,7 @@ ul {
     left: 0;
     width: 100%;
     position: flex;
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.4);
 }
 li {
     float: left;
