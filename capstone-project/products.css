@@ -1,10 +1,6 @@
 @font-face {
-    font-family: Oakland;
-    src: url(Oakland.ttf);
-}
-@font-face {
-    font-family: Kingstone;
-    src: url(Kingstone.ttf);
+    font-family: QuietMeows;
+    src: url(QuietMeows.ttf);
 }
 html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -54,7 +50,7 @@ li a:hover:not(.active) {
     background-color: #111;
   }
 .logo {
-    font-family: Oakland;
+    font-family: QuietMeows;
     font-size: 30px;
     padding-bottom: 10px;
     padding-top: 4px;
