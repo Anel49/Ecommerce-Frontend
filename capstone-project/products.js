@@ -64,21 +64,62 @@ const productArr = [
 
 $(document).ready(function(){
 
-    loadProducts();
+    loadProduct();
+    getCategories()
 
-    function loadProducts(){
+    function loadProduct(productsArr, categoriesArr){
         let productContainer = $(".product-container");
-        $.each(productArr, function(i, key){
+        let matchingCategory = "";
+        
+        $.each(productsArr, function(i, key){
+
+            $.each(categoriesArr, function(i){
+                if ($(this)[0].category_id === key.category){
+                    matchingCategory = $(this)[0].name;
+                }
+            });
+
             productContainer.append(`
                 <div>
-                    <img src="${key.img}">
+                    <img src="${key.picture_url}">
                     <h3>${key.name}</h3>
-                    <p>${key.category}</p>
-                    <h4>$${key.price}</h4>
-                    <p>${key.stock} in Stock</p>
+                    <p>${matchingCategory}</p>
+                    <h4>$${key.starting_at_price}</h4>
+                    <p>${key.stock_quantity} in Stock</p>
                     <p>${key.description}</p>
-                </div>
+                    </div>
                 `);
         });
+    }   
+
+    function getCategories(){
+        let productsArr = [];
+        let categoriesArr = [];
+
+        $.get("http://3.136.18.203:8000/products/", function(products){
+            productsArr = products; 
+            $.get("http://3.136.18.203:8000/categories/", function(categories){
+                categoriesArr = categories;
+                loadProduct(productsArr, categoriesArr);
+            });           
+        });
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });

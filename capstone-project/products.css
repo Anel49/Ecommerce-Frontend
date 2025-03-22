@@ -11,6 +11,8 @@ html {
     text-align: center;
 }
 footer {
+    padding-top: 20px;
+    padding-bottom: 10px;
     text-align: center;
 }
 body {
@@ -60,16 +62,29 @@ li a:hover:not(.active) {
 .product-container {
     width: 80%;
     display: inline-grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto;
 }
 .product-container div {
     margin: 0;
     padding: 20px;
+    margin: 20px;
+    box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.4);
     text-align: left;
 }
 .product-container h1, h2, h3, h4, p {
     margin: 10px;
 }
 .product-container img {
-    width: 50%;
+    width: 300px;
+    padding-left: 10px;
+}
+@media (max-width: 1200px){
+    .product-container {
+        grid-template-columns: auto auto;
+    }
+}
+@media (max-width: 900px){
+    .product-container {
+        grid-template-columns: auto;
+    }
 }
