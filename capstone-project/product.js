@@ -11,22 +11,20 @@ $(document).ready(function(){
     let pageHeader = $("#page-header");
     let productContainer = $(".product-container");
     let itemArr = [];
-    let dropdown = $("#dropdown");
-    let productPrice = $("#productPrice");
+    let dropdown = "";
+    let productPrice = "";
+    let matchingCategoryName = "";
 
-    function fetchProducts(){
-        $.get("http://3.136.18.203:8000/products/", function(products){
-            productsArr = products;
-        });
-        $.get("http://3.136.18.203:8000/categories/", function(categories){
-            categoriesArr = categories;
-            // ask why allProductsPage() can't be called after both of these gets 
-            // run
-            findProduct();
-        });
-    }
-    
-    fetchProducts();
+    // getting API variables
+    $.get("http://3.136.18.203:8000/products/", function(products){
+        productsArr = products;
+    });
+    $.get("http://3.136.18.203:8000/categories/", function(categories){
+        categoriesArr = categories;
+        // ask why allProductsPage() can't be called after both of these gets 
+        // run
+        findProduct();
+    });
     
     function findProduct(){
         
@@ -39,32 +37,33 @@ $(document).ready(function(){
                 pageHeader.html(`
                     <h1>${itemArr.name}</h1>
                     `)
-                loadProduct();
-                return false;
-
-            // not found, set default text
-            } else {
-                $(document).attr('title', "Pet Warehouse");
-                pageHeader.html(`
-                    <h1>Product not found</h1>    
-                    `);
             }
-
-            // finding category name
-            $.each(categoriesArr, function(i){
-                if ($(this)[0].category_id == key.category){
-                    matchingCategory = $(this)[0].name;
-                }
-            });
         });
+
+        // finding matching category name
+        $.each(categoriesArr, function(i, key){
+            if (itemArr.category == key.category_id){
+                matchingCategoryName = key.name;
+            }
+        });
+        
+        // if itemArr is never assigned, the product doesn't exist
+        if (itemArr.length == 0) {
+            $(document).attr('title', "Pet Warehouse");
+            pageHeader.html(`
+                <h1>Product not found</h1>    
+                `);
+        }
+
+        loadProduct();
     }
 
     function loadProduct(){
         productContainer.append(`
             <div id="${itemArr.product_id}" class="product-card">
-                <img src="${itemArr.picture_url}">
+                <img src="${itemArr.picture_url}" id="productImg">
                 <h3>${itemArr.name}</h3>
-                <p>${matchingCategory}</p>
+                <p>${matchingCategoryName}</p>
                 <h4 id="productPrice">$${itemArr.starting_at_price}</h4>
                 <p>${itemArr.stock_quantity} in Stock</p>
                 <p>${itemArr.description}</p>
@@ -77,20 +76,21 @@ $(document).ready(function(){
             </div>
             `);
         
+        dropdown = $("#dropdown");
+        productPrice = $("#productPrice");
+        
         // loads product item varieties into the select dropdown
-        // won't select element using "dropdown" variable name :(((
         $.each(itemArr.varieties, function(i, key){
-            $("#dropdown").append(`
+            dropdown.append(`
                 <option value="${key.name}">${key.name}</option>
                 `);
         });
     }
 
-    // TODO won't select elements using variable names :(((
     $(document).on('change', '#dropdown', function(){
         $.each(itemArr.varieties, function(i, key){
-            if ($("#dropdown").val() == key.name){
-                $("#productPrice").html(`$${key.price}`);
+            if (dropdown.val() == key.name){
+                productPrice.html(`$${key.price}`);
             }
         });
     });

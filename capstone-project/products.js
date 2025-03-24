@@ -21,7 +21,7 @@ $(document).ready(function(){
     }
     
     function loadProducts(){
-        let matchingCategory = "";
+        let matchingCategoryName = "";
         
         pageHeader.html(`
             <h1>All Products</h1>
@@ -31,7 +31,7 @@ $(document).ready(function(){
 
             $.each(categoriesArr, function(i){
                 if ($(this)[0].category_id == key.category){
-                    matchingCategory = $(this)[0].name;
+                    matchingCategoryName = $(this)[0].name;
                 }
             });
 
@@ -39,7 +39,7 @@ $(document).ready(function(){
                 <div id="${key.product_id}" class="product-card">
                     <img src="${key.picture_url}">
                     <h3>${key.name}</h3>
-                    <p>${matchingCategory}</p>
+                    <p>${matchingCategoryName}</p>
                     <h4 id="price-text">$${key.starting_at_price}</h4>
                     <p>${key.stock_quantity} in Stock</p>
                     <p>${key.description}</p>
@@ -53,22 +53,4 @@ $(document).ready(function(){
         const productId = $(this).closest("div").attr("id");
         window.location.href = url + "product_id=" + productId;
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });
