@@ -53,9 +53,9 @@ li a:hover {
     padding-top: 4px;
 }
 .product-container {
-    width: 80%;
+    width: 30%;
     display: inline-grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto;
 }
 .product-container div {
     margin: 0;
@@ -71,13 +71,15 @@ li a:hover {
     width: 300px;
     padding-left: 10px;
 }
-@media (max-width: 1200px){
-    .product-container {
-        grid-template-columns: auto auto;
-    }
+.field {
+    display: block;
+    margin: 0 auto;
+    background-color: rgb(213, 213, 213);
+    border: none;
+    padding: 10px;
+    border-radius: 2px;
+    cursor: pointer;
 }
-@media (max-width: 900px){
-    .product-container {
-        grid-template-columns: auto;
-    }
+form {
+    margin-top: 10px;
 }
