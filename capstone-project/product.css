@@ -79,7 +79,7 @@ li a:hover {
     background-color: rgb(213, 213, 213);
     border: none;
     padding: 10px;
-    border-radius: 2px;
+    border-radius: 3px;
 }
 #add-to-cart-btn {
     cursor: pointer;

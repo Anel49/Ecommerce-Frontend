@@ -56,7 +56,6 @@ li a:hover {
 .product-container {
     width: 80%;
     display: inline-grid;
-    grid-template-columns: auto auto auto;
 }
 .product-container div {
     margin: 0;
@@ -71,16 +70,28 @@ li a:hover {
     margin: 10px;
 }
 .product-container img {
-    width: 300px;
-    padding-left: 10px;
+    width: 100%;
+    margin: 0 auto;
 }
-@media (max-width: 1200px){
+/* I tried making the following @media work, but even Mehdi couldn't figure out
+   how to make it one column at mobile height 😓 */
+@media (min-width: 1px) and (max-width: 420px) {
+    .product-container {
+        grid-template-columns: auto;
+    }
+}
+@media (min-width: 421px) and (max-width: 1000px) {
     .product-container {
         grid-template-columns: auto auto;
     }
 }
-@media (max-width: 900px){
+@media (min-width: 1001px) and (max-width: 1499px) {
     .product-container {
-        grid-template-columns: auto;
+        grid-template-columns: auto auto auto;
+    }
+}
+@media (min-width: 1500px){
+    .product-container {
+        grid-template-columns: auto auto auto auto;
     }
 }

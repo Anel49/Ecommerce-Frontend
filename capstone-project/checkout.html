@@ -22,16 +22,15 @@
     <body class="body">
         <div id="page-header"></div>
         <div class="product-container">
-            <form>
+            <form id="order-form" onsubmit="return false">
                 
                 <section id="total-section">
-                    <label for="payment-method" class="label">Total Amount</label>
-                        <br>
-                    <input type="text" id="order-total" name="total" placeholder="Enter amount">
+                    <label for="payment-method" class="label">Total Amount <a>*</a></label>
+                    <input type="text" id="order-total" name="total" placeholder="Enter amount" required>
                 </section>
 
                 <section id="payment-method-section">
-                    <label for="payment-method" class="label">Payment Method</label>
+                    <label for="payment-method" class="label">Payment Method <a>*</a></label>
                         <br>
                     <input type="radio" id="credit" name="payment-method" 
                         value="CREDIT_CARD">
@@ -51,8 +50,8 @@
                 </section>
 
                 <section id="shipping-address-section">
-                    <label for="shipping-address" class="label">Shipping Address
-                        </label><br>
+                    <label for="shipping-address" class="label">
+                        Shipping Address <a>*</a></label>
                     <textarea id="shipping-address" name="shipping-address" 
                         placeholder="Enter your shipping address" class="resize"></textarea>
                 </section>

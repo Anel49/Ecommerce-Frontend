@@ -3,8 +3,7 @@ $(document).ready(function(){
 
     let categoriesArr = [];
     let productsArr = [];
-    let productContainer = $(".product-container"); 
-    let pageHeader = $("#page-header");
+    let productContainer = $(".product-container");
 
     fetchProducts();
 
@@ -23,9 +22,9 @@ $(document).ready(function(){
     function loadProducts(){
         let matchingCategoryName = "";
         
-        pageHeader.html(`
+        $("#page-header").html(`
             <h1>All Products</h1>
-        `);
+            `)
 
         $.each(productsArr, function(i, key){           
 
