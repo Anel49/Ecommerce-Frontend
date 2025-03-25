@@ -9,7 +9,6 @@ html {
 footer {
     padding-top: 20px;
     padding-bottom: 10px;
-    text-align: center;
 }
 body {
     padding-top: 55px;
@@ -41,9 +40,6 @@ li a {
     padding-top: 12px;
     padding-bottom: 15px;
 }
-li:last-child {
-    float: right;
-}
 li a:hover {
     background-color: #1c708c;
 }
@@ -54,38 +50,38 @@ li a:hover {
     padding-top: 4px;
 }
 .product-container {
-    width: 80%;
-    display: inline-grid;
-    grid-template-columns: auto;
-}
-.product-container div {
-    margin: 0 auto;
     width: 40%;
-    text-align: left;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
+    display: inline-grid;
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.4);
-}
-.product-container h1, h2, h3, h4, p {
-    margin: 10px;
-}
-.product-container img {
-    width: 100%;
-}
-.field {
-    display: block;
-    margin: 0 auto;
-    background-color: rgb(213, 213, 213);
-    border: none;
+    grid-template-columns: auto;
+    text-align: left;
+    border-radius: 10px;
+    background-color: white;
     padding: 10px;
-    border-radius: 2px;
+    padding-right: 23px;
 }
-#add-to-cart-btn {
+section {
+    margin: 15px;
+}
+.label {
+    font-weight: bold;
+}
+.resize {
+    resize: vertical;
+}
+input[type=text], textarea {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+#submit-btn {
     cursor: pointer;
     background-color: #1c708c;
     color: white;
-}
-form {
-    margin-top: 10px;
+    display: block;
+    margin: 0 auto;
+    border: none;
+    padding: 8px;
+    border-radius: 3px;
 }

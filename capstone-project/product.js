@@ -4,7 +4,7 @@ $(document).ready(function(){
     const url = window.location.href;
     const searchParams = new URL(url).searchParams;
     const entries = new URLSearchParams(searchParams).entries();
-    const product = Array.from(entries);
+    const product = Array.from(entries);    
 
     let categoriesArr = [];
     let productsArr = [];
@@ -14,6 +14,8 @@ $(document).ready(function(){
     let dropdown = "";
     let productPrice = "";
     let matchingCategoryName = "";
+    // TODO future addition, calculating total
+    // let addToCartBtn = "";
 
     // getting API variables
     $.get("http://3.136.18.203:8000/products/", function(products){
@@ -26,8 +28,7 @@ $(document).ready(function(){
         findProduct();
     });
     
-    function findProduct(){
-        
+    function findProduct(){        
         $.each(productsArr, function(i, key){
             // finding matching product using product_id
             if ($(this)[0].product_id == product[0][1]){
@@ -39,23 +40,21 @@ $(document).ready(function(){
                     `)
             }
         });
-
         // finding matching category name
         $.each(categoriesArr, function(i, key){
             if (itemArr.category == key.category_id){
                 matchingCategoryName = key.name;
             }
-        });
-        
+        });        
         // if itemArr is never assigned, the product doesn't exist
         if (itemArr.length == 0) {
             $(document).attr('title', "Pet Warehouse");
             pageHeader.html(`
                 <h1>Product not found</h1>    
                 `);
+        } else {
+            loadProduct();
         }
-
-        loadProduct();
     }
 
     function loadProduct(){
@@ -78,6 +77,8 @@ $(document).ready(function(){
         
         dropdown = $("#dropdown");
         productPrice = $("#productPrice");
+        // TODO future addition, calculating total
+        // addToCartBtn = $('#add-to-cart-btn');
         
         // loads product item varieties into the select dropdown
         $.each(itemArr.varieties, function(i, key){
@@ -86,7 +87,7 @@ $(document).ready(function(){
                 `);
         });
     }
-
+    
     $(document).on('change', '#dropdown', function(){
         $.each(itemArr.varieties, function(i, key){
             if (dropdown.val() == key.name){
@@ -94,4 +95,22 @@ $(document).ready(function(){
             }
         });
     });
+
+    // TODO future addition, calculating total
+    // function getNextCartItemId(){
+    //     let counter = localStorage.getItem("lastIndex");
+    //     if (counter === null){
+    //         counter = 0;
+    //     } else {
+    //         counter = parseInt(counter) + 1;
+    //     }
+    //     localStorage.setItem("lastIndex", counter);
+    //     return counter;
+    // }
+
+    // $(document).on('click', "#add-to-cart-btn", function(){
+    //     const price = parseFloat(productPrice.text().slice(1));
+    //     localStorage.setItem("cartTotal" + getNextCartItemId(), price);
+    //     console.log(localStorage);
+    // });
 });

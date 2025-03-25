@@ -13,6 +13,7 @@ footer {
 }
 body {
     padding-top: 55px;
+    background-color: rgb(227, 227, 227);
 }
 ul {
     list-style-type: none;
@@ -63,6 +64,8 @@ li a:hover {
     margin: 20px;
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.4);
     text-align: left;
+    border-radius: 10px;
+    background-color: white;
 }
 .product-container h1, h2, h3, h4, p {
     margin: 10px;

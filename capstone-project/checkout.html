@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="checkout.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        <script src="checkout.js"></script>
+        <!-- TODO favicon not showing -->
+        <link rel="icon" type="image/x-icon" href="shopping-cart.ico">
+        <title>Products</title>
+    </head>
+    <header>
+        <nav>
+            <ul>
+                <li><a class="logo" href="products.html">Pet Warehouse</a></li>
+                <li><a href="products.html">All Products</a></li>
+                <li><a href="">About</a></li>
+              </ul>
+        </nav>
+    </header>
+
+    <body class="body">
+        <div id="page-header"></div>
+        <div class="product-container">
+            <form>
+                
+                <section id="total-section">
+                    <label for="payment-method" class="label">Total Amount</label>
+                        <br>
+                    <input type="text" id="order-total" name="total" placeholder="Enter amount">
+                </section>
+
+                <section id="payment-method-section">
+                    <label for="payment-method" class="label">Payment Method</label>
+                        <br>
+                    <input type="radio" id="credit" name="payment-method" 
+                        value="CREDIT_CARD">
+                    <label for="credit">Credit Card</label><br>
+
+                    <input type="radio" id="debit" name="payment-method" .
+                        value="DEBIT_CARD">
+                    <label for="debit">Debit Card</label><br>
+
+                    <input type="radio" id="paypal" name="payment-method" 
+                        value="PAYPAL">
+                    <label for="paypal">PayPal</label><br>
+
+                    <input type="radio" id="cash-on-delivery" name="payment-method" 
+                        value="CASH_ON_DELIVERY">
+                    <label for="cash-on-delivery">Cash on Delivery</label>
+                </section>
+
+                <section id="shipping-address-section">
+                    <label for="shipping-address" class="label">Shipping Address
+                        </label><br>
+                    <textarea id="shipping-address" name="shipping-address" 
+                        placeholder="Enter your shipping address" class="resize"></textarea>
+                </section>
+
+                <input type="submit" value="Place Order" id="submit-btn" class="field">
+            </form>
+        </div>
+    </body>
+
+    <footer>Pet Warehouse &copy; 2025</footer>
+</html>
