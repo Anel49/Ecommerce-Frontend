@@ -197,8 +197,6 @@ $(document).ready(function(){
         const rowName = $(this).closest("tr").attr("id");
         
         $.each(localStorage, function(key, val){
-            console.log("rowName:", rowName);
-            console.log("localStorage val: ", val);
             if (rowName == val){
                 localStorage.removeItem(key);
                 cartToLocalStorage();

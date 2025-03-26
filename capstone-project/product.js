@@ -103,7 +103,8 @@ $(document).ready(function(){
 
     $(document).on('click', "#add-to-cart-btn", function(){
         const price = productPrice.text().slice(1);
-        const concatStr = `${itemArr.product_id},${dropdown.val()},${price},${itemArr.name},${itemArr.picture_url},${matchingCategoryName}`;
+        const concatStr = `${dropdown.val()},${price},${itemArr.name},${itemArr.picture_url}`;
+        console.log(concatStr);
         localStorage.setItem("cartItem" + getNextCartItemId(), concatStr);
     });
 });

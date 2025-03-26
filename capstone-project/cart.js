@@ -17,35 +17,134 @@ $(document).ready(function(){
         $.each(localStorageArr, function(i){
             let workingDict = {};
             let workingStr = "";
-            // let unmatched = false; //in case I codense them into one
+            let unmatched = false;
 
             try {
                 const str = localStorage.getItem("cartItem" + i);
 
                 workingStr = str.split(",");
-                workingStr[2] = Number(workingStr[2]);
+                workingStr[1] = Number(workingStr[1]);
 
-                workingDict['id'] = workingStr[0];
-                workingDict['size'] = workingStr[1]
-                workingDict['price'] = workingStr[2];
-                workingDict['name'] = workingStr[3];
-                workingDict['pic'] = workingStr[4];
-                workingDict['category'] = workingStr[5];
+                workingDict['size'] = workingStr[0]
+                workingDict['price'] = workingStr[1];
+                workingDict['name'] = workingStr[2];
+                workingDict['pic'] = workingStr[3];
+
+                if (shoppingCartItems.length == 0){
+                    workingDict['count'] = 1;
+                    shoppingCartItems.push(workingDict);
+                } else {
+
+                    // taking count of items
+                    $.each(shoppingCartItems, function(j){
+                        unmatched = false;
+                        let {count, ...sciString} = shoppingCartItems[j];
+
+                        if (JSON.stringify(workingDict) == JSON.stringify(sciString)){
+                            shoppingCartItems[j]['count'] += 1;
+                            return false;
+                        } else {
+                            unmatched = true;
+                        }
+                    });
+
+                    if (unmatched){
+                        workingDict['count'] = 1;
+                        shoppingCartItems.push(workingDict);
+                    }
+                };
 
             } catch (e){
                 return e;
             }
-            shoppingCartItems.push(workingDict);
         });
 
         $.each(shoppingCartItems, function(i){
-            subtotal += shoppingCartItems[i]['price'];
+            subtotal += (shoppingCartItems[i]['count'] * shoppingCartItems[i]['price']);
         });
 
         taxed = (subtotal * taxRate);
         total = Number((subtotal + taxed).toFixed(2));
+
+        updateCartTable();
+
         return total;
     }
+
+    // updates the cart table
+    function updateCartTable(){
+        let popupTable = $("#main-content");
+        let checkoutBtn = $("#checkout-btn");
+
+        if (shoppingCartItems.length == 0){
+            popupTable.html(`
+                <tr>
+                    <td style="border: none; font-weight: bold;">
+                        No items in cart
+                    </td>
+                </tr>
+                `);
+            // TODO bottom padding is unnaturally long
+            checkoutBtn.css("background-color", "white");
+            checkoutBtn.html("");
+
+        } else {
+            // headers
+            popupTable.html(`
+                <tr>
+                    <th>Picture</th>
+                    <th>Product Title</th>
+                    <th>Product Cost</th>
+                    <th>Quantity</th>
+                    <th>Total Cost</th>
+                    <th>Remove</th>
+                </tr>
+                `
+            );
+
+            // shopping cart items
+            $.each(shoppingCartItems, function(i, key){
+                const total = key.count * key.price; 
+                popupTable.append(`
+                    <tr id="${key.size},${key.price},${key.name},${key.pic}">
+                        <td><img src="${key.pic}"
+                             alt="${key.size}, ${key.name}"></td>
+                        <td>${key.name}, ${key.size}</td>
+                        <td>$${key.price}</td>
+                        <td>${key.count}</td>
+                        <td>$${total}</td>
+                        <td><input type="submit" value="Remove" 
+                            class="removeBtn"></td>
+                    </tr>
+                    `);                
+            });
+            
+            // subtotal, tax, and total section
+            popupTable.append(`
+                <tr class="total-section">
+                    <td></td><td></td><td></td><td></td>
+                    <td>Subtotal:</td>
+                    <td>$${subtotal.toFixed(2)}</td>
+                </tr>
+                <tr class="total-section">
+                    <td></td><td></td><td></td><td></td>
+                    <td>Tax:</td>
+                    <td>$${taxed.toFixed(2)}</td>
+                </tr>
+                <tr class="total-section">
+                    <td></td><td></td><td></td><td></td>
+                    <td>Total:</td>
+                    <td>$${total.toFixed(2)}</td>
+                </tr>
+            `);
+
+            checkoutBtn.html(`
+                    <button id="checkout-btn" type="button">
+                        Checkout
+                    </button>
+            `);
+        };
+    };
 
     // creates or changes "cartItemCount"'s value and assigns num for next index
     function getNextCartItemId(){
@@ -85,84 +184,23 @@ $(document).ready(function(){
         taxed = (subtotal * taxRate);
         total = (subtotal + taxed);
         updateCartTable();
-    };
-
-    // updates the cart table
-    function updateCartTable(){
-        let popupTable = $("#main-content");
-        let checkoutBtn = $("#checkout-btn");
-
-        if (shoppingCartItems.length == 0){
-            popupTable.html(`
-                <tr>
-                    <td style="border: none; font-weight: bold;">
-                        No items in cart
-                    </td>
-                </tr>
-                `);
-            // TODO bottom padding is unnaturally long
-            checkoutBtn.css("background-color", "white");
-            checkoutBtn.html("");
-
-        } else {
-            // headers
-            popupTable.html(`
-                <tr>
-                    <th>Picture</th>
-                    <th>Product Title</th>
-                    <th>Product Cost</th>
-                    <th>Quantity</th>
-                    <th>Total Cost</th>
-                    <th>Remove</th>
-                </tr>
-                `
-            );
-
-            // shopping cart items
-            $.each(shoppingCartItems, function(i, key){
-                //const total = key.count * key.price;
-                popupTable.append(`
-                    <tr id="${key.category},${key.id},${key.name},${key.pic},${key.price}">
-                        <td><img src="${key.pic}"
-                             alt="${key.size}, ${key.name}"></td>
-                        <td>${key.size}, ${key.name}</td>
-                        <td>$${key.price}</td>
-                        <td>1</td>
-                        <td>$${key.price}</td>
-                        <td><input type="submit" value="Remove" 
-                            class="removeBtn"></td>
-                    </tr>
-                    `);
-            });
-            
-            // subtotal, tax, and total section
-            popupTable.append(`
-                <tr class="total-section">
-                    <td></td><td></td><td></td><td></td>
-                    <td>Subtotal:</td>
-                    <td>$${subtotal.toFixed(2)}</td>
-                </tr>
-                <tr class="total-section">
-                    <td></td><td></td><td></td><td></td>
-                    <td>Tax:</td>
-                    <td>$${taxed.toFixed(2)}</td>
-                </tr>
-                <tr class="total-section">
-                    <td></td><td></td><td></td><td></td>
-                    <td>Total:</td>
-                    <td>$${total.toFixed(2)}</td>
-                </tr>
-            `);
-
-            checkoutBtn.html(`
-                    <button id="checkout-btn" type="button">
-                        Checkout
-                    </button>
-            `);
-        };
-    };
+    };    
 
     $("#checkout-btn").click(function(){
         window.location = "checkout.html";
+    });
+
+    // removes matching entry from localStorage
+    $(document).on('click', '.removeBtn', function(){
+        const rowName = $(this).closest("tr").attr("id");
+        
+        $.each(localStorage, function(key, val){
+            if (rowName == val){
+                localStorage.removeItem(key);
+                cartToLocalStorage();
+                updateCartTable();
+                return false;
+            };
+        });
     });
 });
