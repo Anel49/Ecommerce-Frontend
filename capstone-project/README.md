@@ -1,1 +1,0 @@
-Fetching products from external database with API
