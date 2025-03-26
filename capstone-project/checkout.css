@@ -40,9 +40,6 @@ li a {
     padding-top: 12px;
     padding-bottom: 15px;
 }
-li a:hover {
-    background-color: #1c708c;
-}
 .logo {
     font-family: QuietMeows;
     font-size: 30px;

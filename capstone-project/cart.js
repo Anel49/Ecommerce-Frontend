@@ -5,10 +5,6 @@ let shoppingCartItems = [];
 
 $(document).ready(function(){
 
-    const modal = $("#modal");    
-    const modalCloseBtn = $("span");
-    const modalMessage = $("#modalMsg");
-
     updateCartArr();
     updateCartTable();
 
@@ -76,20 +72,17 @@ $(document).ready(function(){
     // updates the cart table
     function updateCartTable(){
         let popupTable = $("#main-content");
-        let checkoutBtn = $("#checkout-btn");
+        let cartCheckoutSection = $("#checkout-btn-section")
 
-        if (shoppingCartItems.length == 0){
+        if (shoppingCartItems.length === 0){
             popupTable.html(`
                 <tr>
                     <td style="border: none; font-weight: bold;">
                         No items in cart
                     </td>
                 </tr>
-                `);
-            // TODO bottom padding is unnaturally long
-            checkoutBtn.css("background-color", "white");
-            checkoutBtn.html("");
-
+            `);
+            cartCheckoutSection.html(``);
         } else {
             // headers
             popupTable.html(`
@@ -101,8 +94,7 @@ $(document).ready(function(){
                     <th>Total Cost</th>
                     <th>Remove</th>
                 </tr>
-                `
-            );
+            `);
 
             // shopping cart items
             $.each(shoppingCartItems, function(i, key){
@@ -139,13 +131,15 @@ $(document).ready(function(){
                     <td>$${total.toFixed(2)}</td>
                 </tr>
             `);
-
-            checkoutBtn.html(`
-                    <button id="checkout-btn" type="button">
+            
+            cartCheckoutSection.html(`
+                <a>
+                    <button id="checkout-btn" type="button" class="">
                         Checkout
                     </button>
+                </a>
             `);
-        };
+        }
     };
 
     // creates or changes "cartItemCount"'s value and assigns num for next index

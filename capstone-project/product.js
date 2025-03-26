@@ -19,6 +19,9 @@ $(document).ready(function(){
     const modal = $("#modal");    
     const modalCloseBtn = $("span");
     const modalMessage = $("#modalMsg");
+    const cartIcon = $("#cart-icon");
+
+    updateCartNumber();
 
     // getting API variables
     $.get("http://3.136.18.203:8000/products/", function(products){
@@ -106,23 +109,34 @@ $(document).ready(function(){
         return counter;
     }
 
-    $(document).on('click', "#add-to-cart-btn", function(){
+    $(document).on('click', "#add-to-cart-btn", function(){        
         const price = productPrice.text().slice(1);
         const concatStr = `${dropdown.val()},${price},${itemArr.name},${itemArr.picture_url}`;
         let modalMsg = [dropdown.val(), price, itemArr.name];
         localStorage.setItem("cartItem" + getNextCartItemId(), concatStr);
         $("#modal").css('display', "block");
+        updateCartNumber();
         updateModalMessage(modalMsg);
     });
 
+    function updateCartNumber(){
+        if (localStorage.length === 0){
+            cartIcon.html("0");
+        } else if (localStorage.length > 100){
+            cartIcon.html("99");
+        } else {
+            const cartSize = localStorage.length - 1;
+            cartIcon.html(`${cartSize}`);
+        }        
+    }
+    
     // modal
     modalCloseBtn.click(function(){
         $("#modal").css('display', "none");
     });
-
     function updateModalMessage(modalMsg){
         modalMessage.text(`
             ${modalMsg[0]} ${modalMsg[2]} Added to Cart
-            `)
+        `)
     };
 });

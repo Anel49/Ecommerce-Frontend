@@ -2,17 +2,16 @@
 let subtotal = 0, taxed = 0, total = 0;
 const taxRate = 0.06;
 let shoppingCartItems = [];
+let cartIcon = $("#cart-icon");
 
 $(document).ready(function(){
 
     updateCartArray();
-
-    $("#page-header").html(`
-        <h1>Checkout</h1>
-        `)
+    updateCartNumber();
     
-    $("#order-total").attr("placeholder", "$" + total.toFixed(2));
 
+    $("#order-total").attr("placeholder", "$" + total.toFixed(2));
+    
     function updateCartArray(){
         subtotal = 0;
         shoppingCartItems = [];
@@ -62,7 +61,6 @@ $(document).ready(function(){
 
         $.each(shoppingCartItems, function(i){
             subtotal += (shoppingCartItems[i]['count'] * shoppingCartItems[i]['price']);
-            console.log(shoppingCartItems[i]['count']);
         });
 
         taxed = (subtotal * taxRate);
@@ -89,29 +87,27 @@ $(document).ready(function(){
                     
                     console.log(orderDetails);
 
-                    fetch("http://3.136.18.203:8000/orders/", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                          },
-                        body: JSON.stringify(orderDetails)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                          throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                      })
-                      .then(responseData => {
-                        if (responseData){
-                            alert("Order successfully submitted!");
-                            localStorage.clear();
-                        }                        
-                        console.log('Success:', responseData);
-                      })
-                      .catch(error => {
-                        console.error('Error:', error);
-                      });
+                    // fetch("http://3.136.18.203:8000/orders/", {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json'
+                    //     },
+                    //     body: JSON.stringify(orderDetails)
+                    // })
+                    // .then(response => {
+                    //     if (!response.ok) {
+                    //       throw new Error(`HTTP error! status: ${response.status}`);
+                    //     }
+                    //     return response.json();
+                    // })
+                    // .then(responseData => {
+                    //     alert("Order successfully submitted!");
+                    //     localStorage.clear();
+                    //     console.log('Success:', responseData);
+                    // })
+                    // .catch(error => {
+                    //     console.error('Error:', error);
+                    // });
 
                 } else {
                     alert("A payment method is required to submit an order.");
@@ -123,4 +119,15 @@ $(document).ready(function(){
             alert("A shipping address is required to submit an order.")
         }
     });
+
+    function updateCartNumber(){
+        if (localStorage.length === 0){
+            cartIcon.html("0");
+        } else if (localStorage.length > 100){
+            cartIcon.html("99");
+        } else {
+            const cartSize = localStorage.length - 1;
+            cartIcon.html(`${cartSize}`);
+        }
+    }
 });

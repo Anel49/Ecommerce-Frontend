@@ -1,12 +1,13 @@
 
 $(document).ready(function(){
-
     
     let categoriesArr = [];
     let productsArr = [];
     let productContainer = $(".product-container");
+    let cartIcon = $("#cart-icon");
 
     fetchProducts();
+    updateCartNumber();
 
     function fetchProducts(){
         $.get("http://3.136.18.203:8000/products/", function(products){
@@ -19,13 +20,9 @@ $(document).ready(function(){
             loadProducts();
         });
     }
-    
+
     function loadProducts(){
         let matchingCategoryName = "";
-        
-        $("#page-header").html(`
-            <h1>All Products</h1>
-            `);
 
         $.each(productsArr, function(i, key){           
 
@@ -53,4 +50,15 @@ $(document).ready(function(){
         const productId = $(this).closest("div").attr("id");
         window.location.href = url + "product_id=" + productId;
     });
+
+    function updateCartNumber(){
+        if (localStorage.length === 0){
+            cartIcon.html("0");
+        } else if (localStorage.length > 100){
+            cartIcon.html("99");
+        } else {
+            const cartSize = localStorage.length - 1;
+            cartIcon.html(`${cartSize}`);
+        }        
+    }
 });

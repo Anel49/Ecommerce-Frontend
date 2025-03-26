@@ -42,9 +42,21 @@ li a {
 }
 li:last-child {
     float: right;
+    background-size: 100% 100%;
+    width: 48px;
+    height: 48px;
+    background-image: url("shopping-cart-white.png");
+}
+#cart-icon {
+    color: black;
 }
 li a:hover {
+    background-color: #1c708c;    
+}
+#cart-icon:hover {
     background-color: #1c708c;
+    background-size: 100% 100%;
+    background-image: url("shopping-cart-white.png");
 }
 .logo {
     font-family: QuietMeows;
@@ -71,8 +83,6 @@ li a:hover {
 .product-container img {
     width: 100%;
 }
-/* I tried making the following @media work, but even Mehdi couldn't figure out
-   how to make it one column at mobile height 😓 */
 
 @media (min-width: 1px) {
     .product-container {

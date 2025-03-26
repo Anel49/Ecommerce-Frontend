@@ -103,7 +103,6 @@ table#main-content td:nth-child(5) {
     background-color: #1c708c;
     color: white;
     border: none;
-    padding: 4px;
+    padding: 8px;
     border-radius: 3px;
-    padding-bottom: 8px;
 }
