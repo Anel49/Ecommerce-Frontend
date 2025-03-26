@@ -1,0 +1,108 @@
+@font-face {
+    font-family: customFont;
+    src: url(Vegan.ttf);
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #FFC244;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+div {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    padding-bottom: 10px;
+    width: 80%;
+    margin: 0 auto;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    padding-top: 8px;
+    padding-left: 8px;
+}
+li {
+    float: left;
+}
+li a {
+    line-height: 30px;
+    display: block;
+    color: black;
+    padding: 14px 16px;    
+    text-decoration: none;
+}
+.logo {
+    font-size: 20pt;
+    font-family: customFont;
+    font-weight: lighter;
+}
+body {
+    text-align: center;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;    
+}
+th {
+    background-color: #FFC244;
+}
+th, td {
+    border-bottom: 1px solid #EAEAEA;
+    padding: 10px;
+}
+table#main-content  td:nth-child(1) {
+    width: 20%;
+    padding-bottom: 18px;
+}
+table#main-content img {
+    width: 50%;
+}
+table#main-content input[type=text] {
+    background-color: #e6e6e6;
+    border: none;
+    text-align: center;
+    font-size: 12pt;
+    border-radius: 3px;
+    height: 30px;
+    width: 30px;
+}
+/* couldn't figure out how to configure these tds using a single class on the 
+   section tag like I did for the above table tag class */
+tr.total-section td {
+    border: none;
+    font-weight: bold;
+    text-align: right;
+    padding-bottom: 0;
+}
+footer {
+    padding-top: 50px;
+    text-align: center;
+    padding-bottom: 30px;
+}
+table#main-content td:nth-child(5) {
+    font-weight: bold;
+}
+@media(max-width: 1152px) {
+    #main-content {
+      display: grid;
+    }
+    #main-content tr {
+      display: contents;
+    }
+    #main-content th {
+        display: none;
+    }
+    table#main-content td:nth-child(1) {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        width: 200%;
+        border: none;
+    }
+    #total-section input {
+        display: contents;
+    }
+  }

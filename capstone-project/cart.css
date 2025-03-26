@@ -1,0 +1,109 @@
+@font-face {
+    font-family: QuietMeows;
+    src: url(QuietMeows.ttf);
+}
+html {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+footer {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+body {
+    padding-top: 55px;
+    background-color: rgb(227, 227, 227);
+}
+div {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    padding-bottom: 10px;
+    width: 80%;
+    margin: 0 auto;
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.4);
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #19647E;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    position: flex;
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.4);
+}
+li {
+    float: left;
+    height: 100%;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 6px 16px;
+    padding-top: 12px;
+    padding-bottom: 15px;
+}
+li a:hover {
+    background-color: #1c708c;
+}
+.logo {
+    font-family: QuietMeows;
+    font-size: 30px;
+    padding-bottom: 10px;
+    padding-top: 4px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th {
+    background-color: #1f7896;
+    color: white;
+}
+th, td {
+    border-bottom: 1px solid #EAEAEA;
+    padding: 10px;
+}
+table#main-content  td:nth-child(1) {
+    width: 20%;
+    padding-bottom: 18px;
+}
+table#main-content img {
+    width: 50%;
+}
+table#main-content input[type=text] {
+    background-color: #e6e6e6;
+    border: none;
+    text-align: center;
+    font-size: 12pt;
+    border-radius: 3px;
+    height: 30px;
+    width: 30px;
+}
+/* couldn't figure out how to configure these tds using a single class on the 
+   section tag like I did for the above table tag class */
+tr.total-section td {
+    border: none;
+    font-weight: bold;
+    text-align: right;
+    padding-bottom: 0;
+}
+table#main-content td:nth-child(5) {
+    font-weight: bold;
+}
+#checkout-btn {
+    cursor: pointer;
+    background-color: #1c708c;
+    color: white;
+    border: none;
+    padding: 4px;
+    border-radius: 3px;
+    padding-bottom: 8px;
+}

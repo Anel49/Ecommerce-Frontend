@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Shirt Shopper</title>
+        <link rel="icon" type="image/x-icon" href="imgs/ss-logo.ico">
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
+        <script src="product.js"></script>
+    </head>
+    <body>
+        <nav>
+            <ul id="nav-bar">
+                <li><a class="logo" href="product.html">Shirt Shopper</a></li>
+                <li><a>Home</a></li>
+                <li><a>About</a></li>
+                <li><a>Contact</a></li>
+                <!-- maybe make the background the image and the bubble overlay it? -->
+                <img id="cart" src="imgs/cart-bubble.png" alt="Checkout Cart Icon">
+                <a id="cart-counter" class="single-digit"></a>
+            </ul>
+            <div id="cart-popup">
+                <table id="cart-popup-table"></table>
+            </div>
+        </nav>
+
+        <h1>Shirt</h1>
+        <div id="main-content">            
+            <img id="shirt-img" src="imgs/products/black-shirtfront.png" 
+                alt="Image of a blue shirt" width="400" 
+                height="400">
+            <section>
+                <h2 id="price-txt">$19.99</h2>
+                <h2>Description</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                    Curabitur vel velit a dolor cursus aliquet. Suspendisse 
+                    potenti. Donect non nisi id nisi pretium tincidunt.
+                </p>
+            </section>
+            <h2>Available Sizes</h2>
+            <section>
+                <table id="sizes-table">
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                    </tr>
+                </table>  
+
+                <select id="sizeSelect" class="select middle field"></select>
+                <select id="colorSelect" class="select middle field"></select>
+
+                <form id="add-to-cart-form">
+                    <button id="add-to-cart-btn" class="middle field" 
+                        type="button">
+                        Add to Cart</button>
+                </form>
+                
+                <div id="modal" class="modal">
+                    <div class="modal-content">
+                        <span class="closeBtn">&times;</span>
+                        <p id="modalMsg"></p>
+                    </div>
+                </div>
+
+            </section>        
+        </div>
+        <footer>&copy; 2025 Shirt Shopper Corp.</footer>
+    </body>
+</html>
