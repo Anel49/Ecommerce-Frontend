@@ -88,3 +88,36 @@ li a:hover {
 form {
     margin-top: 10px;
 }
+.modal {
+    display: none;
+    position: fixed;
+    left: -20px;
+    top: 0;
+    border: none;
+    width: 102%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}  
+.modal-content {
+    background-color: white;
+    border: none;
+    margin: 18% auto;
+    width: 40%;
+    height: 46px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.closeBtn {
+    color: #cccccc;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.closeBtn:hover,
+.closeBtn:focus {
+    cursor: pointer;
+    color: #646464;
+}
+.show {
+    display: block !important;
+}

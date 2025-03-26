@@ -5,6 +5,10 @@ let shoppingCartItems = [];
 
 $(document).ready(function(){
 
+    const modal = $("#modal");    
+    const modalCloseBtn = $("span");
+    const modalMessage = $("#modalMsg");
+
     updateCartArr();
     updateCartTable();
 
@@ -13,6 +17,7 @@ $(document).ready(function(){
         subtotal = 0;
         shoppingCartItems = [];
         const localStorageArr = Object.keys(localStorage);
+        
 
         $.each(localStorageArr, function(i){
             let workingDict = {};
@@ -34,7 +39,6 @@ $(document).ready(function(){
                     workingDict['count'] = 1;
                     shoppingCartItems.push(workingDict);
                 } else {
-
                     // taking count of items
                     $.each(shoppingCartItems, function(j){
                         unmatched = false;
@@ -47,13 +51,11 @@ $(document).ready(function(){
                             unmatched = true;
                         }
                     });
-
                     if (unmatched){
                         workingDict['count'] = 1;
                         shoppingCartItems.push(workingDict);
                     }
                 };
-
             } catch (e){
                 return e;
             }
@@ -112,7 +114,7 @@ $(document).ready(function(){
                         <td>${key.name}, ${key.size}</td>
                         <td>$${key.price}</td>
                         <td>${key.count}</td>
-                        <td>$${total}</td>
+                        <td>$${total.toFixed(2)}</td>
                         <td><input type="submit" value="Remove" 
                             class="removeBtn"></td>
                     </tr>

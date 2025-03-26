@@ -15,6 +15,11 @@ $(document).ready(function(){
     let productPrice = "";
     let matchingCategoryName = "";
 
+    const addToCartBtn = $("#add-to-cart-btn");
+    const modal = $("#modal");    
+    const modalCloseBtn = $("span");
+    const modalMessage = $("#modalMsg");
+
     // getting API variables
     $.get("http://3.136.18.203:8000/products/", function(products){
         productsArr = products;
@@ -104,7 +109,20 @@ $(document).ready(function(){
     $(document).on('click', "#add-to-cart-btn", function(){
         const price = productPrice.text().slice(1);
         const concatStr = `${dropdown.val()},${price},${itemArr.name},${itemArr.picture_url}`;
-        console.log(concatStr);
+        let modalMsg = [dropdown.val(), price, itemArr.name];
         localStorage.setItem("cartItem" + getNextCartItemId(), concatStr);
+        $("#modal").css('display', "block");
+        updateModalMessage(modalMsg);
     });
+
+    // modal
+    modalCloseBtn.click(function(){
+        $("#modal").css('display', "none");
+    });
+
+    function updateModalMessage(modalMsg){
+        modalMessage.text(`
+            ${modalMsg[0]} ${modalMsg[2]} Added to Cart
+            `)
+    };
 });
