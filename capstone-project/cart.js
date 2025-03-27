@@ -7,6 +7,7 @@ $(document).ready(function(){
 
     updateCartArr();
     updateCartTable();
+    $("#order-total").attr("placeholder", "$" + total.toFixed(2));
 
     // zeros out shoppingCartItems to repopulate with new localStorage variables
     function updateCartArr(){
@@ -183,7 +184,7 @@ $(document).ready(function(){
     };    
 
     $("#checkout-btn").click(function(){
-        window.location = "checkout.html";
+        $("#modal").css("display", "block");
     });
 
     // removes matching entry from localStorage
@@ -198,5 +199,63 @@ $(document).ready(function(){
                 return false;
             };
         });
+    });
+
+    // modal
+    $(document).on('click', ".closeBtn", function(){
+        $("#modal").css('display', "none");
+    });
+
+    $(document).on('click', "#submit-btn", function(){
+        const customerId = Math.floor(Math.random() * (2327 - 875 + 1)) + 875;
+        const orderDate = new Date().toISOString();
+        const paymentMethod = $('input:radio[name="payment-method"]:checked').val();
+        const shippingAddress = $("#shipping-address").val();
+
+        if (shippingAddress.replace(/ /g, "") !== ""){
+            if (total !== ""){
+                if (paymentMethod !== undefined){
+
+                    const orderDetails =
+                        {"customer_id": customerId,
+                        "order_date": orderDate,
+                        "total_amount": total,
+                        "payment_method": paymentMethod,
+                        "shipping_address": shippingAddress};
+
+                    fetch("http://3.136.18.203:8000/orders/", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(orderDetails)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(responseData => {
+                        alert("Order successfully submitted!");
+                        localStorage.clear();
+                        updateCartArr();
+                        $('form')[0].reset();
+                        $("#order-total").attr("placeholder", "$" + total.toFixed(2));                        
+                        console.log('Success:', responseData);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+                } else {
+                    alert("A payment method is required to submit an order.");
+                }                               
+            } else {
+                alert("A total is required to submit an order.")
+            }
+        } else {
+            alert("A shipping address is required to submit an order.")
+        }
     });
 });

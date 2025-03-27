@@ -106,3 +106,82 @@ table#main-content td:nth-child(5) {
     padding: 8px;
     border-radius: 3px;
 }
+.modal {
+    display: none;
+    position: fixed;
+    left: -20px;
+    top: 0;
+    border: none;
+    width: 105%;
+    height: 120%;
+    background-color: rgba(0,0,0,0.4);
+    
+}
+@keyframes modal-popup-animation {
+    0%{transform: scale(0);}
+    40%{transform: scale(1);}
+    100%{transform: scale(1);}
+}
+.modal-content {
+    background-color: white;
+    border: none;
+    margin-top: 80px;
+    width: 30%;
+    min-width: 500px;
+    padding: 10px;
+    border-radius: 5px;
+    animation: modal-popup-animation 0.8s;
+}
+#order-form section {
+    margin: 15px;
+}
+.closeBtn {
+    color: #cccccc;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.closeBtn:hover,
+.closeBtn:focus {
+    cursor: pointer;
+    color: #646464;
+}
+.show {
+    display: block !important;
+}
+.label {
+    font-weight: bold;
+}
+.resize {
+    resize: vertical;
+}
+input[type=text], textarea {
+    width: 80%;
+    padding: 6px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+#submit-btn {
+    cursor: pointer;
+    background-color: #1c708c;
+    color: white;
+    display: block;
+    margin: 0 auto;
+    border: none;
+    padding: 8px;
+    border-radius: 3px;
+}
+.modal-content a {
+    color: red;
+}
+.modal-content p {
+    font-weight: bold;
+    padding-left: 15px;
+}
+#order-total {
+    background-color: rgb(221, 221, 221);
+    cursor: default;
+}
+#order-form {
+    text-align: left;
+}

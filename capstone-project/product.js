@@ -113,7 +113,7 @@ $(document).ready(function(){
         const price = productPrice.text().slice(1);
         const concatStr = `${dropdown.val()},${price},${itemArr.name},${itemArr.picture_url}`;
         let modalMsg = [dropdown.val(), price, itemArr.name];
-        localStorage.setItem("cartItem" + getNextCartItemId(), concatStr);
+        localStorage.setItem("cartItem" + getNextCartItemId(), concatStr);        
         $("#modal").css('display', "block");
         updateCartNumber();
         updateModalMessage(modalMsg);

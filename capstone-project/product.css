@@ -118,6 +118,7 @@ form {
     height: 46px;
     padding: 10px;
     border-radius: 5px;
+    animation: modal-popup-animation-in 0.8s;
 }
 .closeBtn {
     color: #cccccc;
@@ -132,4 +133,9 @@ form {
 }
 .show {
     display: block !important;
+}
+@keyframes modal-popup-animation-in {
+    0%{transform: scale(0);}
+    40%{transform: scale(1);}
+    100%{transform: scale(1);}
 }
