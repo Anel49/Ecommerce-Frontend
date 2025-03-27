@@ -7,7 +7,10 @@ $(document).ready(function(){
 
     updateCartArr();
     updateCartTable();
-    $("#order-total").attr("placeholder", "$" + total.toFixed(2));
+    
+    let checkoutTotalPlaceholder = $("#order-total");
+    checkoutTotalPlaceholder.attr("placeholder", "$" + total.toFixed(2));
+    const checkoutModal = $("#modal");
 
     // zeros out shoppingCartItems to repopulate with new localStorage variables
     function updateCartArr(){
@@ -183,8 +186,9 @@ $(document).ready(function(){
         updateCartTable();
     };    
 
-    $("#checkout-btn").click(function(){
-        $("#modal").css("display", "block");
+    $(document).on('click', "#checkout-btn", function(){
+        checkoutModal.css("display", "block");
+        checkoutTotalPlaceholder.attr("placeholder", "$" + total.toFixed(2));
     });
 
     // removes matching entry from localStorage
@@ -203,7 +207,8 @@ $(document).ready(function(){
 
     // modal
     $(document).on('click', ".closeBtn", function(){
-        $("#modal").css('display', "none");
+        $('form')[0].reset();
+        checkoutModal.css('display', "none");
     });
 
     $(document).on('click', "#submit-btn", function(){
@@ -241,7 +246,7 @@ $(document).ready(function(){
                         localStorage.clear();
                         updateCartArr();
                         $('form')[0].reset();
-                        $("#order-total").attr("placeholder", "$" + total.toFixed(2));                        
+                        checkoutTotalPlaceholder.attr("placeholder", "$" + total.toFixed(2));                        
                         console.log('Success:', responseData);
                     })
                     .catch(error => {

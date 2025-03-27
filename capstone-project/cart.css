@@ -114,8 +114,7 @@ table#main-content td:nth-child(5) {
     border: none;
     width: 105%;
     height: 120%;
-    background-color: rgba(0,0,0,0.4);
-    
+    background-color: rgba(0,0,0,0.4);    
 }
 @keyframes modal-popup-animation {
     0%{transform: scale(0);}
@@ -134,6 +133,7 @@ table#main-content td:nth-child(5) {
 }
 #order-form section {
     margin: 15px;
+    margin-right: 28px;
 }
 .closeBtn {
     color: #cccccc;
@@ -156,7 +156,7 @@ table#main-content td:nth-child(5) {
     resize: vertical;
 }
 input[type=text], textarea {
-    width: 80%;
+    width: 100%;
     padding: 6px;
     border: 1px solid lightgray;
     border-radius: 5px;

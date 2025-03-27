@@ -10,13 +10,13 @@ $(document).ready(function(){
     updateCartNumber();
 
     function fetchProducts(){
-        $.get("http://3.136.18.203:8000/products/", function(products){
+        let productsRequest = $.get("http://3.136.18.203:8000/products/", function(products){
             productsArr = products;
         });
-        $.get("http://3.136.18.203:8000/categories/", function(categories){
+        let categoriesRequest = $.get("http://3.136.18.203:8000/categories/", function(categories){
             categoriesArr = categories;
-            // ask why loadProducts() can't be called after both of these gets 
-            // run
+        });
+        $.when(productsRequest, categoriesRequest).done(function(){
             loadProducts();
         });
     }
@@ -59,6 +59,7 @@ $(document).ready(function(){
         } else {
             const cartSize = localStorage.length - 1;
             cartIcon.html(`${cartSize}`);
+            cartIcon.css("padding-left", "15px");
         }        
     }
 });

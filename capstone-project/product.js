@@ -22,15 +22,19 @@ $(document).ready(function(){
     const cartIcon = $("#cart-icon");
 
     updateCartNumber();
+    fetchProducts();
 
-    // getting API variables
-    $.get("http://3.136.18.203:8000/products/", function(products){
-        productsArr = products;
-    });
-    $.get("http://3.136.18.203:8000/categories/", function(categories){
-        categoriesArr = categories;
-        findProduct();
-    });
+    function fetchProducts(){
+        let productsRequest = $.get("http://3.136.18.203:8000/products/", function(products){
+            productsArr = products;
+        });
+        let categoriesRequest = $.get("http://3.136.18.203:8000/categories/", function(categories){
+            categoriesArr = categories;
+        });
+        $.when(productsRequest, categoriesRequest).done(function(){
+            findProduct();
+        });
+    }
     
     function findProduct(){        
         $.each(productsArr, function(i, key){
@@ -127,6 +131,7 @@ $(document).ready(function(){
         } else {
             const cartSize = localStorage.length - 1;
             cartIcon.html(`${cartSize}`);
+            cartIcon.css("padding-left", "15px");
         }        
     }
     
