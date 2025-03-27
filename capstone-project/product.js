@@ -15,14 +15,26 @@ $(document).ready(function(){
     let productPrice = "";
     let matchingCategoryName = "";
 
-    // getting API variables
-    $.get("http://3.136.18.203:8000/products/", function(products){
-        productsArr = products;
-    });
-    $.get("http://3.136.18.203:8000/categories/", function(categories){
-        categoriesArr = categories;
-        findProduct();
-    });
+    const addToCartBtn = $("#add-to-cart-btn");
+    const modal = $("#modal");    
+    const modalCloseBtn = $("span");
+    const modalMessage = $("#modalMsg");
+    const cartIcon = $("#cart-icon");
+
+    updateCartNumber();
+    fetchProducts();
+
+    function fetchProducts(){
+        let productsRequest = $.get("http://3.136.18.203:8000/products/", function(products){
+            productsArr = products;
+        });
+        let categoriesRequest = $.get("http://3.136.18.203:8000/categories/", function(categories){
+            categoriesArr = categories;
+        });
+        $.when(productsRequest, categoriesRequest).done(function(){
+            findProduct();
+        });
+    }
     
     function findProduct(){        
         $.each(productsArr, function(i, key){
@@ -101,10 +113,35 @@ $(document).ready(function(){
         return counter;
     }
 
-    $(document).on('click', "#add-to-cart-btn", function(){
+    $(document).on('click', "#add-to-cart-btn", function(){        
         const price = productPrice.text().slice(1);
         const concatStr = `${dropdown.val()},${price},${itemArr.name},${itemArr.picture_url}`;
-        console.log(concatStr);
-        localStorage.setItem("cartItem" + getNextCartItemId(), concatStr);
+        let modalMsg = [dropdown.val(), price, itemArr.name];
+        localStorage.setItem("cartItem" + getNextCartItemId(), concatStr);        
+        $("#modal").css('display', "block");
+        updateCartNumber();
+        updateModalMessage(modalMsg);
     });
+
+    function updateCartNumber(){
+        if (localStorage.length === 0){
+            cartIcon.html("0");
+        } else if (localStorage.length > 100){
+            cartIcon.html("99");
+        } else {
+            const cartSize = localStorage.length - 1;
+            cartIcon.html(`${cartSize}`);
+            cartIcon.css("padding-left", "15px");
+        }        
+    }
+    
+    // modal
+    modalCloseBtn.click(function(){
+        $("#modal").css('display', "none");
+    });
+    function updateModalMessage(modalMsg){
+        modalMessage.text(`
+            ${modalMsg[0]} ${modalMsg[2]} Added to Cart
+        `)
+    };
 });

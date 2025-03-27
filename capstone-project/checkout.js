@@ -2,17 +2,16 @@
 let subtotal = 0, taxed = 0, total = 0;
 const taxRate = 0.06;
 let shoppingCartItems = [];
+let cartIcon = $("#cart-icon");
 
 $(document).ready(function(){
 
     updateCartArray();
-
-    $("#page-header").html(`
-        <h1>Checkout</h1>
-        `)
+    updateCartNumber();
     
-    $("#order-total").attr("placeholder", "$" + total.toFixed(2));
 
+    $("#order-total").attr("placeholder", "$" + total.toFixed(2));
+    
     function updateCartArray(){
         subtotal = 0;
         shoppingCartItems = [];
@@ -21,29 +20,47 @@ $(document).ready(function(){
         $.each(localStorageArr, function(i){
             let workingDict = {};
             let workingStr = "";
-            // let unmatched = false; //in case I codense them into one
+            let unmatched = false;
 
             try {
                 const str = localStorage.getItem("cartItem" + i);
 
                 workingStr = str.split(",");
-                workingStr[2] = Number(workingStr[2]);
+                workingStr[1] = Number(workingStr[1]);
 
-                workingDict['id'] = workingStr[0];
-                workingDict['size'] = workingStr[1]
-                workingDict['price'] = workingStr[2];
-                workingDict['name'] = workingStr[3];
-                workingDict['pic'] = workingStr[4];
-                workingDict['category'] = workingStr[5];
+                workingDict['size'] = workingStr[0]
+                workingDict['price'] = workingStr[1];
+                workingDict['name'] = workingStr[2];
+                workingDict['pic'] = workingStr[3];
 
+                if (shoppingCartItems.length == 0){
+                    workingDict['count'] = 1;
+                    shoppingCartItems.push(workingDict);
+                } else {
+                    // taking count of items
+                    $.each(shoppingCartItems, function(j){
+                        unmatched = false;
+                        let {count, ...sciString} = shoppingCartItems[j];
+
+                        if (JSON.stringify(workingDict) == JSON.stringify(sciString)){
+                            shoppingCartItems[j]['count'] += 1;
+                            return false;
+                        } else {
+                            unmatched = true;
+                        }
+                    });
+                    if (unmatched){
+                        workingDict['count'] = 1;
+                        shoppingCartItems.push(workingDict);
+                    }
+                };
             } catch (e){
                 return e;
             }
-            shoppingCartItems.push(workingDict);
         });
 
         $.each(shoppingCartItems, function(i){
-            subtotal += shoppingCartItems[i]['price'];
+            subtotal += (shoppingCartItems[i]['count'] * shoppingCartItems[i]['price']);
         });
 
         taxed = (subtotal * taxRate);
@@ -74,7 +91,7 @@ $(document).ready(function(){
                     //     method: 'POST',
                     //     headers: {
                     //         'Content-Type': 'application/json'
-                    //       },
+                    //     },
                     //     body: JSON.stringify(orderDetails)
                     // })
                     // .then(response => {
@@ -82,13 +99,15 @@ $(document).ready(function(){
                     //       throw new Error(`HTTP error! status: ${response.status}`);
                     //     }
                     //     return response.json();
-                    //   })
-                    //   .then(responseData => {
+                    // })
+                    // .then(responseData => {
+                    //     alert("Order successfully submitted!");
+                    //     localStorage.clear();
                     //     console.log('Success:', responseData);
-                    //   })
-                    //   .catch(error => {
+                    // })
+                    // .catch(error => {
                     //     console.error('Error:', error);
-                    //   });
+                    // });
 
                 } else {
                     alert("A payment method is required to submit an order.");
@@ -100,4 +119,15 @@ $(document).ready(function(){
             alert("A shipping address is required to submit an order.")
         }
     });
+
+    function updateCartNumber(){
+        if (localStorage.length === 0){
+            cartIcon.html("0");
+        } else if (localStorage.length > 100){
+            cartIcon.html("99");
+        } else {
+            const cartSize = localStorage.length - 1;
+            cartIcon.html(`${cartSize}`);
+        }
+    }
 });

@@ -28,7 +28,7 @@ $(document).ready(function(){
 
     // constants
     const addToCartBtn = $("#add-to-cart-btn");
-    const modal = $("#modal");    
+    const modal = $("#modal");
     const modalCloseBtn = $("span");
     const modalMessage = $("#modalMsg");
 

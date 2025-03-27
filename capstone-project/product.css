@@ -43,9 +43,26 @@ li a {
 }
 li:last-child {
     float: right;
+    background-size: 100% 100%;
+    width: 49px;
+    height: 49px;
+    background-image: url("shopping-basket.png");
+}
+#cart-icon {
+    color: #19647E;
+    padding-top: 17px;
+    font-weight: bold;
 }
 li a:hover {
+    background-color: #1c708c;    
+}
+/* TODO fix it so it doesn't move */
+#cart-icon:hover {
     background-color: #1c708c;
+    background-size: 100% 100%;
+    width: 18px;
+    height: 18px;
+    background-image: url("shopping-basket.png");
 }
 .logo {
     font-family: QuietMeows;
@@ -87,4 +104,43 @@ li a:hover {
 }
 form {
     margin-top: 10px;
+}
+.modal {
+    display: none;
+    position: fixed;
+    left: -20px;
+    top: 0;
+    border: none;
+    width: 102%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}  
+.modal-content {
+    background-color: white;
+    border: none;
+    margin: 18% auto;
+    width: 40%;
+    height: 46px;
+    padding: 10px;
+    border-radius: 5px;
+    animation: modal-popup-animation-in 0.8s;
+}
+.closeBtn {
+    color: #cccccc;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.closeBtn:hover,
+.closeBtn:focus {
+    cursor: pointer;
+    color: #646464;
+}
+.show {
+    display: block !important;
+}
+@keyframes modal-popup-animation-in {
+    0%{transform: scale(0);}
+    40%{transform: scale(1);}
+    100%{transform: scale(1);}
 }

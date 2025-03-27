@@ -1,31 +1,28 @@
 
 $(document).ready(function(){
-
     
     let categoriesArr = [];
     let productsArr = [];
     let productContainer = $(".product-container");
+    let cartIcon = $("#cart-icon");
 
     fetchProducts();
+    updateCartNumber();
 
     function fetchProducts(){
-        $.get("http://3.136.18.203:8000/products/", function(products){
+        let productsRequest = $.get("http://3.136.18.203:8000/products/", function(products){
             productsArr = products;
         });
-        $.get("http://3.136.18.203:8000/categories/", function(categories){
+        let categoriesRequest = $.get("http://3.136.18.203:8000/categories/", function(categories){
             categoriesArr = categories;
-            // ask why loadProducts() can't be called after both of these gets 
-            // run
+        });
+        $.when(productsRequest, categoriesRequest).done(function(){
             loadProducts();
         });
     }
-    
+
     function loadProducts(){
         let matchingCategoryName = "";
-        
-        $("#page-header").html(`
-            <h1>All Products</h1>
-            `);
 
         $.each(productsArr, function(i, key){           
 
@@ -53,4 +50,16 @@ $(document).ready(function(){
         const productId = $(this).closest("div").attr("id");
         window.location.href = url + "product_id=" + productId;
     });
+
+    function updateCartNumber(){
+        if (localStorage.length === 0){
+            cartIcon.html("0");
+        } else if (localStorage.length > 100){
+            cartIcon.html("99");
+        } else {
+            const cartSize = localStorage.length - 1;
+            cartIcon.html(`${cartSize}`);
+            cartIcon.css("padding-left", "15px");
+        }        
+    }
 });

@@ -7,12 +7,17 @@ $(document).ready(function(){
 
     updateCartArr();
     updateCartTable();
+    
+    let checkoutTotalPlaceholder = $("#order-total");
+    checkoutTotalPlaceholder.attr("placeholder", "$" + total.toFixed(2));
+    const checkoutModal = $("#modal");
 
     // zeros out shoppingCartItems to repopulate with new localStorage variables
     function updateCartArr(){
         subtotal = 0;
         shoppingCartItems = [];
         const localStorageArr = Object.keys(localStorage);
+        
 
         $.each(localStorageArr, function(i){
             let workingDict = {};
@@ -34,7 +39,6 @@ $(document).ready(function(){
                     workingDict['count'] = 1;
                     shoppingCartItems.push(workingDict);
                 } else {
-
                     // taking count of items
                     $.each(shoppingCartItems, function(j){
                         unmatched = false;
@@ -47,13 +51,11 @@ $(document).ready(function(){
                             unmatched = true;
                         }
                     });
-
                     if (unmatched){
                         workingDict['count'] = 1;
                         shoppingCartItems.push(workingDict);
                     }
                 };
-
             } catch (e){
                 return e;
             }
@@ -74,20 +76,17 @@ $(document).ready(function(){
     // updates the cart table
     function updateCartTable(){
         let popupTable = $("#main-content");
-        let checkoutBtn = $("#checkout-btn");
+        let cartCheckoutSection = $("#checkout-btn-section")
 
-        if (shoppingCartItems.length == 0){
+        if (shoppingCartItems.length === 0){
             popupTable.html(`
                 <tr>
                     <td style="border: none; font-weight: bold;">
                         No items in cart
                     </td>
                 </tr>
-                `);
-            // TODO bottom padding is unnaturally long
-            checkoutBtn.css("background-color", "white");
-            checkoutBtn.html("");
-
+            `);
+            cartCheckoutSection.html(``);
         } else {
             // headers
             popupTable.html(`
@@ -99,8 +98,7 @@ $(document).ready(function(){
                     <th>Total Cost</th>
                     <th>Remove</th>
                 </tr>
-                `
-            );
+            `);
 
             // shopping cart items
             $.each(shoppingCartItems, function(i, key){
@@ -112,7 +110,7 @@ $(document).ready(function(){
                         <td>${key.name}, ${key.size}</td>
                         <td>$${key.price}</td>
                         <td>${key.count}</td>
-                        <td>$${total}</td>
+                        <td>$${total.toFixed(2)}</td>
                         <td><input type="submit" value="Remove" 
                             class="removeBtn"></td>
                     </tr>
@@ -137,13 +135,15 @@ $(document).ready(function(){
                     <td>$${total.toFixed(2)}</td>
                 </tr>
             `);
-
-            checkoutBtn.html(`
-                    <button id="checkout-btn" type="button">
+            
+            cartCheckoutSection.html(`
+                <a>
+                    <button id="checkout-btn" type="button" class="">
                         Checkout
                     </button>
+                </a>
             `);
-        };
+        }
     };
 
     // creates or changes "cartItemCount"'s value and assigns num for next index
@@ -186,8 +186,9 @@ $(document).ready(function(){
         updateCartTable();
     };    
 
-    $("#checkout-btn").click(function(){
-        window.location = "checkout.html";
+    $(document).on('click', "#checkout-btn", function(){
+        checkoutModal.css("display", "block");
+        checkoutTotalPlaceholder.attr("placeholder", "$" + total.toFixed(2));
     });
 
     // removes matching entry from localStorage
@@ -202,5 +203,64 @@ $(document).ready(function(){
                 return false;
             };
         });
+    });
+
+    // modal
+    $(document).on('click', ".closeBtn", function(){
+        $('form')[0].reset();
+        checkoutModal.css('display', "none");
+    });
+
+    $(document).on('click', "#submit-btn", function(){
+        const customerId = Math.floor(Math.random() * (2327 - 875 + 1)) + 875;
+        const orderDate = new Date().toISOString();
+        const paymentMethod = $('input:radio[name="payment-method"]:checked').val();
+        const shippingAddress = $("#shipping-address").val();
+
+        if (shippingAddress.replace(/ /g, "") !== ""){
+            if (total !== ""){
+                if (paymentMethod !== undefined){
+
+                    const orderDetails =
+                        {"customer_id": customerId,
+                        "order_date": orderDate,
+                        "total_amount": total,
+                        "payment_method": paymentMethod,
+                        "shipping_address": shippingAddress};
+
+                    fetch("http://3.136.18.203:8000/orders/", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(orderDetails)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(responseData => {
+                        alert("Order successfully submitted!");
+                        localStorage.clear();
+                        updateCartArr();
+                        $('form')[0].reset();
+                        checkoutTotalPlaceholder.attr("placeholder", "$" + total.toFixed(2));                        
+                        console.log('Success:', responseData);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+                } else {
+                    alert("A payment method is required to submit an order.");
+                }                               
+            } else {
+                alert("A total is required to submit an order.")
+            }
+        } else {
+            alert("A shipping address is required to submit an order.")
+        }
     });
 });
