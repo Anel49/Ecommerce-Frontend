@@ -75,50 +75,44 @@ $(document).ready(function(){
 
     // updates the cart table
     function updateCartTable(){
-        let popupTable = $("#main-content");
+        let itemTable = $("#main-content");
         let cartCheckoutSection = $("#checkout-btn-section")
 
+        const template = $("#cart-items")[0];
+        const fragment = document.createDocumentFragment();
+        const myElement = template.content.cloneNode(true);
+
         if (shoppingCartItems.length === 0){
-            popupTable.html(`
-                <tr>
-                    <td style="border: none; font-weight: bold;">
-                        No items in cart
-                    </td>
-                </tr>
-            `);
-            cartCheckoutSection.html(``);
+            myElement.querySelector(".no-items-msg").textContent = "No items in cart";
+            myElement.querySelector("#checkout-btn-section").textContent = "";
+            fragment.append(myElement);
         } else {
             // headers
-            popupTable.html(`
-                <tr>
-                    <th>Picture</th>
-                    <th>Product Title</th>
-                    <th>Product Cost</th>
-                    <th>Quantity</th>
-                    <th>Total Cost</th>
-                    <th>Remove</th>
-                </tr>
-            `);
+            myElement.querySelector(".th-pic").textContent = "Picture";
+            myElement.querySelector(".th-name").textContent = "Product Name";
+            myElement.querySelector(".th-cost").textContent = "Product Cost";
+            myElement.querySelector(".th-quantity").textContent = "Quantity";
+            myElement.querySelector(".th-total").textContent = "Total Cost";
+            myElement.querySelector(".th-remove").textContent = "Remove";
+
+            fragment.append(myElement);
 
             // shopping cart items
-            $.each(shoppingCartItems, function(i, key){
-                const total = key.count * key.price; 
-                popupTable.append(`
-                    <tr id="${key.size},${key.price},${key.name},${key.pic}">
-                        <td><img src="${key.pic}"
-                             alt="${key.size}, ${key.name}"></td>
-                        <td>${key.name}, ${key.size}</td>
-                        <td>$${key.price}</td>
-                        <td>${key.count}</td>
-                        <td>$${total.toFixed(2)}</td>
-                        <td><input type="submit" value="Remove" 
-                            class="removeBtn"></td>
-                    </tr>
-                    `);                
+            $.each(shoppingCartItems, function(i, item){
+                const rowId = item.size+","+item.price +","+item.name+","+item.pic;
+                myElement.querySelector(".row-id").id = rowId;
+                myElement.querySelector(".pr-img").src = item.pic;
+                myElement.querySelector(".pr-img").alt = item.size + " " + item.name;
+                myElement.querySelector(".pr-name").textContent = item.size + ", " + item.name;
+                myElement.querySelector(".pr-price").textContent = "$" + item.price;
+                myElement.querySelector(".pr-quantity").textContent = item.count;
+                myElement.querySelector(".pr-total").textContent = "$" + total.toFixed(2);
+
+                fragment.append(myElement);
             });
             
             // subtotal, tax, and total section
-            popupTable.append(`
+            itemTable.append(`
                 <tr class="total-section">
                     <td></td><td></td><td></td><td></td>
                     <td>Subtotal:</td>
@@ -144,8 +138,10 @@ $(document).ready(function(){
                 </a>
             `);
         }
+        itemTable.empty();
+        itemTable.append(fragment);
     };
-
+    
     // creates or changes "cartItemCount"'s value and assigns num for next index
     function getNextCartItemId(){
         let counter = localStorage.getItem("lastIndex");

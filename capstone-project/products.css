@@ -84,6 +84,7 @@ li a:hover {
 }
 .product-container h1, h2, h3, h4, p {
     margin: 10px;
+    margin-left: 0;
 }
 .product-container img {
     width: 100%;

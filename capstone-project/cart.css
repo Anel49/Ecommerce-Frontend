@@ -13,13 +13,13 @@ footer {
 body {
     padding-top: 55px;
     background-color: rgb(227, 227, 227);
-}
+}template
 div {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     padding-bottom: 10px;
-    width: 80%;
+    width: 75%;
     margin: 0 auto;
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.4);
 }

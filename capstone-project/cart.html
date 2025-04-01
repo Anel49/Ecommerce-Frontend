@@ -18,12 +18,35 @@
         </nav>
 
         <h1>Shopping Cart</h1>
+
         <div id="table">
-            <section>
-                <table id="main-content"></table>
-            </section>
-            <section id="checkout-btn-section"></section>
+            <template id="cart-items">
+                <section>
+                    <table id="main-content">
+                        <tr class="no-items-msg" style="border: non; font-weight: bold;"></tr>
+                        <tr>
+                            <th class="th-pic"></th>
+                            <th class="th-name"></th>
+                            <th class="th-cost"></th>
+                            <th class="th-quantity"></th>
+                            <th class="th-total"></th>
+                            <th class="th-remove"></th>
+                        </tr>
+                        <tr id="" class="row-id">
+                            <td class="pr-img"><img src="" alt=""></td>
+                            <td class="pr-name"></td>
+                            <td class="pr-price"></td>
+                            <td class="pr-quantity"></td>
+                            <td class="pr-total"></td>
+                            <td class="pr-remove"><input type="submit" value="Remove" 
+                                class="removeBtn"></td>
+                        </tr>
+                    </table>
+                </section>
+                <section id="checkout-btn-section"></section>
+            </template>
         </div>
+
         <section id="modal" class="modal">
             <div class="modal-content">
                 <span class="closeBtn">&times;</span>
