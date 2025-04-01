@@ -51,17 +51,7 @@ li:last-child {
     color: #19647E;
     padding-top: 17px;
     font-weight: bold;
-}
-li a:hover {
-    background-color: #1c708c;    
-}
-/* TODO fix it so it doesn't move */
-#cart-icon:hover {
-    background-color: #1c708c;
-    background-size: 100% 100%;
-    width: 18px;
-    height: 18px;
-    background-image: url("shopping-basket.png");
+    
 }
 .logo {
     font-family: QuietMeows;
@@ -88,6 +78,7 @@ li a:hover {
 }
 .product-container img {
     width: 100%;
+    border-radius: 5px;
 }
 a {
     text-decoration: none;

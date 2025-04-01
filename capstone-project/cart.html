@@ -1,95 +1,116 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="cart.css">
-        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-        <script src="cart.js"></script>
-        <link rel="icon" type="image/x-icon" href="shopping-cart.ico">
-        <title>Shopping Cart</title>
-    </head>
-    <body>
-        <nav>
-            <ul>
-                <li><a class="logo" href="products.html">Pet Warehouse</a></li>
-                <li><a href="products.html">All Products</a></li>
-            </ul>
-        </nav>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="cart.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="cart.js"></script>
+    <link rel="icon" type="image/x-icon" href="shopping-cart.ico" />
+    <title>Shopping Cart</title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a class="logo" href="products.html">Pet Warehouse</a></li>
+        <li><a href="products.html">All Products</a></li>
+      </ul>
+    </nav>
 
-        <h1>Shopping Cart</h1>
+    <h1>Shopping Cart</h1>
 
-        <div id="table">
-            <template id="cart-items">
-                <section>
-                    <table id="main-content">
-                        <tr class="no-items-msg" style="border: non; font-weight: bold;"></tr>
-                        <tr>
-                            <th class="th-pic"></th>
-                            <th class="th-name"></th>
-                            <th class="th-cost"></th>
-                            <th class="th-quantity"></th>
-                            <th class="th-total"></th>
-                            <th class="th-remove"></th>
-                        </tr>
-                        <tr id="" class="row-id">
-                            <td class="pr-img"><img src="" alt=""></td>
-                            <td class="pr-name"></td>
-                            <td class="pr-price"></td>
-                            <td class="pr-quantity"></td>
-                            <td class="pr-total"></td>
-                            <td class="pr-remove"><input type="submit" value="Remove" 
-                                class="removeBtn"></td>
-                        </tr>
-                    </table>
-                </section>
-                <section id="checkout-btn-section"></section>
-            </template>
-        </div>
+    <div id="table">
+      <table id="main-content"></table>
+      <template id="cart-row-template">
+        <tr class="row-id">
+          <td class="pr-img"><img src="" alt="" /></td>
+          <td class="pr-name"></td>
+          <td class="pr-price"></td>
+          <td class="pr-quantity"></td>
+          <td class="pr-total"></td>
+          <td class="pr-remove">
+            <input type="button" value="Remove" class="removeBtn styled-btn" />
+          </td>
+        </tr>
+      </template>
+      <section id="checkout-btn-section"></section>
+    </div>
 
-        <section id="modal" class="modal">
-            <div class="modal-content">
-                <span class="closeBtn">&times;</span>
-                <h1>Checkout</h1>
-                <form id="order-form" onsubmit="return false">                
-                    <section id="total-section">
-                        <label for="payment-method" class="label">Total Amount
-                            </label>
-                        <input type="text" id="order-total" name="total" 
-                            placeholder="Enter amount" readonly>
-                    </section>
-    
-                    <section id="payment-method-section">
-                        <label for="payment-method" class="label">Payment Method 
-                            <a>*</a></label><br>
-                        <input type="radio" id="credit" name="payment-method" 
-                            value="CREDIT_CARD">
-                        <label for="credit">Credit Card</label><br>
-    
-                        <input type="radio" id="debit" name="payment-method" .
-                            value="DEBIT_CARD">
-                        <label for="debit">Debit Card</label><br>
-    
-                        <input type="radio" id="paypal" name="payment-method" 
-                            value="PAYPAL">
-                        <label for="paypal">PayPal</label><br>
-    
-                        <input type="radio" id="cash-on-delivery" name="payment-method" 
-                            value="CASH_ON_DELIVERY">
-                        <label for="cash-on-delivery">Cash on Delivery</label>
-                    </section>
-    
-                    <section id="shipping-address-section">
-                        <label for="shipping-address" class="label">
-                            Shipping Address <a>*</a></label>
-                        <textarea id="shipping-address" name="shipping-address" 
-                            placeholder="Enter your shipping address" class="resize"></textarea>
-                    </section>
-                    <p><a>*</a> Required</p>
-                    <input type="submit" value="Place Order" id="submit-btn" class="field">
-                </form>
-            </div>
-        </section>
-        <footer>Pet Warehouse &copy; 2025</footer>
-    </body>
+    <section id="modal" class="modal">
+      <div class="modal-content">
+        <span class="closeBtn">&times;</span>
+        <h1>Checkout</h1>
+        <form id="order-form" onsubmit="return false">
+          <section id="total-section">
+            <label for="payment-method" class="label">Total Amount </label>
+            <input
+              type="text"
+              id="order-total"
+              name="total"
+              placeholder="Enter amount"
+              readonly
+            />
+          </section>
+
+          <section id="payment-method-section">
+            <label for="payment-method" class="label"
+              >Payment Method <a>*</a></label
+            ><br />
+            <input
+              type="radio"
+              id="credit"
+              name="payment-method"
+              value="CREDIT_CARD"
+            />
+            <label for="credit">Credit Card</label><br />
+
+            <input
+              type="radio"
+              id="debit"
+              name="payment-method"
+              .
+              value="DEBIT_CARD"
+            />
+            <label for="debit">Debit Card</label><br />
+
+            <input
+              type="radio"
+              id="paypal"
+              name="payment-method"
+              value="PAYPAL"
+            />
+            <label for="paypal">PayPal</label><br />
+
+            <input
+              type="radio"
+              id="cash-on-delivery"
+              name="payment-method"
+              value="CASH_ON_DELIVERY"
+            />
+            <label for="cash-on-delivery">Cash on Delivery</label>
+          </section>
+
+          <section id="shipping-address-section">
+            <label for="shipping-address" class="label">
+              Shipping Address <a>*</a></label
+            >
+            <textarea
+              id="shipping-address"
+              name="shipping-address"
+              placeholder="Enter your shipping address"
+              class="resize"
+            ></textarea>
+          </section>
+          <p><a>*</a> Required</p>
+          <input
+            type="submit"
+            value="Place Order"
+            id="submit-btn"
+            class="field"
+          />
+        </form>
+      </div>
+    </section>
+    <footer>Pet Warehouse &copy; 2025</footer>
+  </body>
 </html>

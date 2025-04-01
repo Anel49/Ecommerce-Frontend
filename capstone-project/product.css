@@ -53,17 +53,6 @@ li:last-child {
     padding-top: 17px;
     font-weight: bold;
 }
-li a:hover {
-    background-color: #1c708c;    
-}
-/* TODO fix it so it doesn't move */
-#cart-icon:hover {
-    background-color: #1c708c;
-    background-size: 100% 100%;
-    width: 18px;
-    height: 18px;
-    background-image: url("shopping-basket.png");
-}
 .logo {
     font-family: QuietMeows;
     font-size: 30px;
@@ -72,9 +61,8 @@ li a:hover {
 }
 .product-container {
     width: 80%;
-    display: inline-grid;
 }
-.product-container div {
+.product-container {
     margin: 0 auto;
     width: 40%;
     text-align: left;
@@ -143,4 +131,43 @@ form {
     0%{transform: scale(0);}
     40%{transform: scale(1);}
     100%{transform: scale(1);}
+}
+.pr-sec {
+    width: 50%;
+}
+.product-container-2 {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 50%;
+    background-color: white;
+}
+img {
+    width: 100%;
+    border-radius: 5px;
+}
+#dropdown-and-ad {
+    position: absolute;
+    bottom: 24px;
+    left: 70%;
+}
+#desc-sec {
+    padding-left: 20px;
+}
+
+@media (max-width: 1460px) {
+    .pr-sec {
+        width: 100%;
+    }
+    .product-container-2 {
+        display: block;
+    }
+    img {
+        width: 50%;
+    }
+    #dropdown-and-ad {
+        right: 10px;
+        left: 78%;
+    }
 }
