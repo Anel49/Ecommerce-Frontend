@@ -44,8 +44,7 @@ $(document).ready(function(){
                 if (category.category_id == product.category){
                     matchingCategoryName = category.name;
                 }
-            });
-            
+            });            
             myElement.querySelector(".product-card").href += product.product_id;
             myElement.querySelector(".pr-img").src = product.picture_url;
             myElement.querySelector(".pr-name").textContent = product.name;
@@ -74,4 +73,21 @@ $(document).ready(function(){
             cartIcon.css("padding-left", "15px");
         }        
     }
+
+    // hamburger menu operation
+    $(document).on('click', "#ham", function(){
+        const links = document.getElementById("myLinks");
+        if (links.style.display === "block") {
+            links.style.display = "none";
+        } else {
+            links.style.display = "block";
+            let cartCount = $("#cartCount");
+            if (localStorage.length === 0){
+                cartCount.html("Cart (0)");
+            } else {
+                cartAmount = localStorage.length - 1;
+                cartCount.html(`Cart (${cartAmount})`);
+            }            
+        }
+    });
 });

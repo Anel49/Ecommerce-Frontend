@@ -76,7 +76,8 @@ table#main-content  td:nth-child(1) {
     padding-bottom: 18px;
 }
 table#main-content img {
-    width: 50%;
+    width: 80%;
+    border-radius: 5px;
 }
 table#main-content input[type=text] {
     background-color: #e6e6e6;

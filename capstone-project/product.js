@@ -77,7 +77,7 @@ $(document).ready(function(){
                 <h4 id="productPrice">$${itemArr.starting_at_price}</h4>
                 <p>${itemArr.stock_quantity} in Stock</p>
                 <p>${itemArr.description}</p>
-                <section id="dropdown-and-ad">
+                <section id="dropdown-and-add">
                     <select id="dropdown" class="field"></select>
                     <form>
                         <button id="add-to-cart-btn" type="button" class="field">
@@ -155,9 +155,27 @@ $(document).ready(function(){
     modalCloseBtn.click(function(){
         $("#modal").css('display', "none");
     });
+
     function updateModalMessage(modalMsg){
         modalMessage.text(`
             ${modalMsg[0]} ${modalMsg[2]} Added to Cart
         `)
     };
+
+    // hamburger menu operation
+    $(document).on('click', "#ham", function(){
+        const links = document.getElementById("myLinks");
+        if (links.style.display === "block") {
+            links.style.display = "none";
+        } else {
+            links.style.display = "block";
+            let cartCount = $("#cartCount");
+            if (localStorage.length === 0){
+                cartCount.html("Cart (0)");
+            } else {
+                cartAmount = localStorage.length - 1;
+                cartCount.html(`Cart (${cartAmount})`);
+            }            
+        }
+    });
 });

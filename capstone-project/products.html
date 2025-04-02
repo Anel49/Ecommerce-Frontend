@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="products.css">
         <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
         <script src="products.js"></script>
@@ -9,12 +10,24 @@
         <title>All Products</title>
     </head>
     <header>
-        <nav>
-            <ul>
-                <li><a class="logo" href="products.html">Pet Warehouse</a></li>
+        <nav id="comp-nav">
+            <ul id="comp">
+                <li><a class="logo" href="products.html">Pet Store</a></li>
                 <li><a href="products.html">All Products</a></li>
-                <li><a href="cart.html" id="cart-icon"></a></li>
+                <li><a id="cart-icon" href="cart.html"></a></li>
             </ul>
+        </nav>
+        <nav id="mobile-nav">
+            <div class="topnav">
+                <a class="logo" href="products.html">Pet Store</a>
+                <div id="myLinks">                  
+                    <a href="products.html">All Products</a>
+                    <a id="cartCount" href="cart.html"></a>
+                </div>
+                <a id="ham" class="icon">
+                  <i class="fa fa-bars"></i>
+                </a>
+            </div>
         </nav>
     </header>
 
@@ -33,5 +46,5 @@
             </template>
         </div>
     </body>
-    <footer>Pet Warehouse &copy; 2025</footer>
+    <footer>Pet Store &copy; 2025</footer>
 </html>
