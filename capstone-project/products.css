@@ -144,6 +144,7 @@ a {
   }  
   .topnav #myLinks {
     display: none;
+    background-color: #1c708c;
   }  
   .topnav a {
     color: white;

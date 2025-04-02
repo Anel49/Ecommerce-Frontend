@@ -1,3 +1,6 @@
+
+/* format table so elements don't jump off the div upon resize; width 936 is when it starts to resize the div padding */
+
 @font-face {
     font-family: QuietMeows;
     src: url(QuietMeows.ttf);
@@ -9,7 +12,7 @@ html {
 footer {
     padding-top: 20px;
     padding-bottom: 10px;
-}
+} 
 body {
     padding-top: 55px;
     background-color: rgb(227, 227, 227);
@@ -72,12 +75,14 @@ th, td {
     padding: 10px;
 }
 table#main-content  td:nth-child(1) {
-    width: 20%;
-    padding-bottom: 18px;
+    min-width: 250px;
+    width: 250px;
+    padding-bottom: 10px;
 }
 table#main-content img {
-    width: 80%;
+    width: 100%;
     border-radius: 5px;
+    position: relative;
 }
 table#main-content input[type=text] {
     background-color: #e6e6e6;
