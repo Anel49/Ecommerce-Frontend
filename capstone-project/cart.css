@@ -1,3 +1,6 @@
+
+/* format table so elements don't jump off the div upon resize; width 936 is when it starts to resize the div padding */
+
 @font-face {
     font-family: QuietMeows;
     src: url(QuietMeows.ttf);
