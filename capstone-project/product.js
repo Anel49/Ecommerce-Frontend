@@ -9,7 +9,9 @@ $(document).ready(function(){
     let categoriesArr = [];
     let productsArr = [];
     let pageHeader = $("#page-header");
-    let productContainer = $(".product-container");
+    //let productContainer = $(".product-container");
+    let productImage = $("#img-sec");
+    let productDesc = $("#desc-sec");
     let itemArr = [];
     let dropdown = "";
     let productPrice = "";
@@ -66,22 +68,36 @@ $(document).ready(function(){
     }
 
     function loadProduct(){
-        productContainer.append(`
-            <div id="${itemArr.product_id}" class="product-card">
-                <img src="${itemArr.picture_url}" id="productImg">
-                <h3>${itemArr.name}</h3>
-                <p>${matchingCategoryName}</p>
+
+        productImage.append(`
+                <img src="${itemArr.picture_url}">`)
+
+        productDesc.append(`
+                <h3>${matchingCategoryName}</h3>
                 <h4 id="productPrice">$${itemArr.starting_at_price}</h4>
                 <p>${itemArr.stock_quantity} in Stock</p>
                 <p>${itemArr.description}</p>
-                <select id="dropdown" class="field"></select>
-                <form>
-                    <button id="add-to-cart-btn" type="button" class="field">
-                        Add to Cart
-                    </button>
-                </form>
-            </div>
-            `);
+                <section id="dropdown-and-add">
+                    <select id="dropdown" class="field"></select>
+                    <form>
+                        <button id="add-to-cart-btn" type="button" class="field">
+                            Add to Cart
+                        </button>
+                    </form>
+                </section>`)
+
+        // productContainer.append(`
+        //     <div id="${itemArr.product_id}" class="product-card">
+        //         <img src="${itemArr.picture_url}" id="productImg">
+        //         <h3>${itemArr.name}</h3>
+        //         <p>${matchingCategoryName}</p>
+        //         <h4 id="productPrice">$${itemArr.starting_at_price}</h4>
+        //         <p>${itemArr.stock_quantity} in Stock</p>
+        //         <p>${itemArr.description}</p>
+        //         <select id="dropdown" class="field"></select>
+                
+        //     </div>
+        //     `);
         
         dropdown = $("#dropdown");
         productPrice = $("#productPrice");
@@ -139,9 +155,27 @@ $(document).ready(function(){
     modalCloseBtn.click(function(){
         $("#modal").css('display', "none");
     });
+
     function updateModalMessage(modalMsg){
         modalMessage.text(`
             ${modalMsg[0]} ${modalMsg[2]} Added to Cart
         `)
     };
+
+    // hamburger menu operation
+    $(document).on('click', "#ham", function(){
+        const links = document.getElementById("myLinks");
+        if (links.style.display === "block") {
+            links.style.display = "none";
+        } else {
+            links.style.display = "block";
+            let cartCount = $("#cartCount");
+            if (localStorage.length === 0){
+                cartCount.html("Cart (0)");
+            } else {
+                cartAmount = localStorage.length - 1;
+                cartCount.html(`Cart (${cartAmount})`);
+            }            
+        }
+    });
 });

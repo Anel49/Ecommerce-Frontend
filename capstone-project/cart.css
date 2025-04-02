@@ -19,7 +19,7 @@ div {
     padding: 20px;
     border-radius: 10px;
     padding-bottom: 10px;
-    width: 80%;
+    width: 75%;
     margin: 0 auto;
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.4);
 }
@@ -76,7 +76,8 @@ table#main-content  td:nth-child(1) {
     padding-bottom: 18px;
 }
 table#main-content img {
-    width: 50%;
+    width: 80%;
+    border-radius: 5px;
 }
 table#main-content input[type=text] {
     background-color: #e6e6e6;
@@ -98,7 +99,7 @@ tr.total-section td {
 table#main-content td:nth-child(5) {
     font-weight: bold;
 }
-#checkout-btn {
+.styled-btn {
     cursor: pointer;
     background-color: #1c708c;
     color: white;

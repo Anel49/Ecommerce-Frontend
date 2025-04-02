@@ -3,52 +3,63 @@ $(document).ready(function(){
     
     let categoriesArr = [];
     let productsArr = [];
-    let productContainer = $(".product-container");
+    let productContainer = $(".product-container")[0];
     let cartIcon = $("#cart-icon");
+    const template = $("#products-template")[0];
+    const APIdomain = "http://3.136.18.203:8000/";
+    const productsAPI = APIdomain + "products/";
+    const categoriesAPI = APIdomain + "categories/";
+    const fragment = document.createDocumentFragment();
 
     fetchProducts();
     updateCartNumber();
 
-    function fetchProducts(){
-        let productsRequest = $.get("http://3.136.18.203:8000/products/", function(products){
-            productsArr = products;
-        });
-        let categoriesRequest = $.get("http://3.136.18.203:8000/categories/", function(categories){
-            categoriesArr = categories;
-        });
-        $.when(productsRequest, categoriesRequest).done(function(){
+    async function fetchProducts(){
+        try {            
+            const productsResponse = await fetch(productsAPI);
+            const categoriesResponse = await fetch(categoriesAPI);
+
+            if (!productsResponse.ok){
+                throw new Error("Failed to fetch products.");
+            }
+            if (!categoriesResponse.ok){
+                throw new Error("Failed to fetch categories.");
+            }
+            productsArr = await productsResponse.json();
+            categoriesArr = await categoriesResponse.json();
+
             loadProducts();
-        });
+        } catch (e){
+            alert(e);
+        }
     }
 
     function loadProducts(){
-        let matchingCategoryName = "";
 
-        $.each(productsArr, function(i, key){           
+        $.each(productsArr, function(i, product){
+            let matchingCategoryName = "";
+            const myElement = template.content.cloneNode(true);
 
-            $.each(categoriesArr, function(i){
-                if ($(this)[0].category_id == key.category){
-                    matchingCategoryName = $(this)[0].name;
+            $.each(categoriesArr, function(i, category){
+                if (category.category_id == product.category){
+                    matchingCategoryName = category.name;
                 }
-            });
-
-            productContainer.append(`
-                <div id="${key.product_id}" class="product-card">
-                    <img src="${key.picture_url}">
-                    <h3>${key.name}</h3>
-                    <p>${matchingCategoryName}</p>
-                    <h4 id="price-text">$${key.starting_at_price}</h4>
-                    <p>${key.stock_quantity} in Stock</p>
-                    <p>${key.description}</p>
-                </div>
-            `);
+            });            
+            myElement.querySelector(".product-card").href += product.product_id;
+            myElement.querySelector(".pr-img").src = product.picture_url;
+            myElement.querySelector(".pr-name").textContent = product.name;
+            myElement.querySelector(".pr-category").textContent = matchingCategoryName;
+            myElement.querySelector(".pr-starting-price").textContent += product.starting_at_price;
+            myElement.querySelector(".pr-qty").textContent = product.product_id + " in Stock";
+            myElement.querySelector(".pr-description").textContent = product.description;
+            fragment.append(myElement);            
         });
+        productContainer.append(fragment);
     }
 
     $(document).on('click', ".product-card", function(){
-        const url = "product.html?"
         const productId = $(this).closest("div").attr("id");
-        window.location.href = url + "product_id=" + productId;
+        window.location.href = productId;
     });
 
     function updateCartNumber(){
@@ -62,4 +73,21 @@ $(document).ready(function(){
             cartIcon.css("padding-left", "15px");
         }        
     }
+
+    // hamburger menu operation
+    $(document).on('click', "#ham", function(){
+        const links = document.getElementById("myLinks");
+        if (links.style.display === "block") {
+            links.style.display = "none";
+        } else {
+            links.style.display = "block";
+            let cartCount = $("#cartCount");
+            if (localStorage.length === 0){
+                cartCount.html("Cart (0)");
+            } else {
+                cartAmount = localStorage.length - 1;
+                cartCount.html(`Cart (${cartAmount})`);
+            }            
+        }
+    });
 });
